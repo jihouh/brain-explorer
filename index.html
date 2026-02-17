@@ -40,8 +40,9 @@
         .game-header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             animation: float 3s ease-in-out infinite;
+            position: relative;
         }
         
         @keyframes float {
@@ -134,6 +135,11 @@
             box-shadow: 0 4px 15px rgba(42, 157, 143, 0.4);
         }
         
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 0.9em;
+        }
+        
         .nav-bar {
             background: white;
             padding: 15px;
@@ -144,6 +150,45 @@
             margin-bottom: 20px;
             flex-wrap: wrap;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .control-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .control-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+        
+        .music-playing {
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(78, 205, 196, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
         }
         
         .avatar-selection {
@@ -348,13 +393,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        .timer {
-            font-size: 2em;
-            font-family: 'Fredoka One', cursive;
-            color: var(--challenge-orange);
-            margin: 20px 0;
-        }
-        
         .game-area {
             min-height: 200px;
             background: white;
@@ -510,6 +548,7 @@
         .reflection-btn:hover {
             border-color: var(--gold);
             background: #fffef5;
+            transform: translateX(5px);
         }
         
         .crystal {
@@ -575,6 +614,86 @@
             0% { transform: scale(0) rotate(0deg); }
             50% { transform: scale(1.2) rotate(180deg); }
             100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        /* Challenge Games */
+        .challenge-game-area {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .maze-grid {
+            display: inline-grid;
+            grid-template-columns: repeat(5, 50px);
+            gap: 2px;
+            background: #ccc;
+            padding: 2px;
+            border-radius: 10px;
+        }
+        
+        .maze-cell {
+            width: 50px;
+            height: 50px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .maze-cell.wall {
+            background: #2C3E50;
+        }
+        
+        .maze-cell.path {
+            background: #e8f4f8;
+        }
+        
+        .maze-cell.player {
+            background: var(--challenge-orange);
+            border-radius: 50%;
+        }
+        
+        .maze-cell.goal {
+            background: var(--memory-green);
+        }
+        
+        .breathing-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--focus-blue), var(--memory-green));
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: white;
+            animation: breathe 4s infinite ease-in-out;
+            cursor: pointer;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        
+        .word-scramble {
+            font-size: 2em;
+            letter-spacing: 10px;
+            margin: 20px;
+            color: var(--dark);
+        }
+        
+        .scramble-input {
+            font-size: 1.5em;
+            padding: 10px;
+            border: 3px solid var(--challenge-orange);
+            border-radius: 10px;
+            text-align: center;
+            width: 200px;
         }
         
         /* Parent Dashboard Styles */
@@ -839,6 +958,33 @@
             border-color: var(--parent-teal);
         }
         
+        .danger-zone {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 2px solid #ef5350;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .danger-zone h3 {
+            color: #c62828;
+            margin-bottom: 15px;
+        }
+        
+        .saved-profiles {
+            margin: 20px 0;
+        }
+        
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
         .text-center { text-align: center; }
         .mt-20 { margin-top: 20px; }
         .hidden { display: none !important; }
@@ -863,10 +1009,18 @@
             .avatar-selection { grid-template-columns: repeat(2, 1fr); }
             .memory-grid { grid-template-columns: repeat(3, 1fr); }
             .explorer-card { flex-direction: column; text-align: center; }
+            .top-controls { top: 10px; right: 10px; }
+            .control-btn { width: 40px; height: 40px; font-size: 1.2em; }
         }
     </style>
 </head>
 <body>
+    <!-- Top Controls -->
+    <div class="top-controls">
+        <button class="control-btn" onclick="toggleMusic()" id="music-btn" title="Toggle Music">🎵</button>
+        <button class="control-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+    </div>
+
     <div class="container">
         <div class="game-header">
             <h1>🧠 Brain Explorer Academy</h1>
@@ -898,8 +1052,8 @@
                     </button>
                 </div>
                 <p class="text-center mt-20" style="color: #888; font-size: 0.9em;">
-                    💾 Your progress saves automatically in this browser.<br>
-                    👨‍👩‍👧 Parents: Click "Parent Dashboard" to track learning progress.
+                    💾 Progress saves per name • 🎵 Click music button for sound<br>
+                    👨‍👩‍👧 Parents: Click "Parent Dashboard" to track progress
                 </p>
             </div>
         </div>
@@ -924,6 +1078,12 @@
                 
                 <div class="text-center">
                     <button class="btn" onclick="createExplorer()">Start Adventure! 🚀</button>
+                    <button class="btn btn-green" onclick="loadExistingProfile()">Load My Progress 📝</button>
+                </div>
+                
+                <div id="existing-profiles" class="saved-profiles hidden">
+                    <h3 class="text-center">Choose your profile:</h3>
+                    <div id="profiles-list"></div>
                 </div>
             </div>
         </div>
@@ -1206,15 +1366,142 @@
                     <p><strong>Growth Areas:</strong> <span id="growth-areas">Not enough data yet</span></p>
                     <p><strong>Recommended Focus:</strong> <span id="recommendation">Try any island to begin!</span></p>
                 </div>
-                <div class="text-center mt-20">
-                    <button class="btn btn-green" onclick="exportData()">Export Data 📊</button>
-                    <button class="btn" onclick="showScreen('screen-about')">Back to Game 🔙</button>
+            </div>
+
+            <!-- Saved Profiles Section -->
+            <div class="card">
+                <h2>👤 Saved Profiles</h2>
+                <div id="saved-profiles-list" class="saved-profiles">
+                    <p style="color: #888;">No saved profiles found.</p>
                 </div>
+                <button class="btn btn-green mt-20" onclick="exportAllData()">Export All Data 📊</button>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="danger-zone">
+                <h3>⚠️ Danger Zone - Reset Progress</h3>
+                <p style="margin-bottom: 15px; color: #555;">Reset all achievements for current player or all players. This cannot be undone!</p>
+                <button class="btn btn-orange btn-small" onclick="resetCurrentPlayer()">Reset Current Player 🗑️</button>
+                <button class="btn btn-orange btn-small" onclick="resetAllPlayers()">Reset ALL Players 💥</button>
+            </div>
+
+            <div class="text-center mt-20">
+                <button class="btn" onclick="showScreen('screen-about')">Back to Game 🔙</button>
             </div>
         </div>
     </div>
 
+    <!-- Audio Context for Music -->
     <script>
+        // Audio System
+        let audioContext = null;
+        let musicPlaying = false;
+        let currentOscillator = null;
+        let musicInterval = null;
+
+        const melodies = {
+            calm: [
+                {freq: 261.63, duration: 500}, // C4
+                {freq: 329.63, duration: 500}, // E4
+                {freq: 392.00, duration: 500}, // G4
+                {freq: 523.25, duration: 1000}, // C5
+                {freq: 392.00, duration: 500}, // G4
+                {freq: 329.63, duration: 500}, // E4
+            ],
+            playful: [
+                {freq: 392.00, duration: 300}, // G4
+                {freq: 440.00, duration: 300}, // A4
+                {freq: 493.88, duration: 300}, // B4
+                {freq: 523.25, duration: 600}, // C5
+                {freq: 493.88, duration: 300}, // B4
+                {freq: 440.00, duration: 300}, // A4
+            ],
+            success: [
+                {freq: 523.25, duration: 200}, // C5
+                {freq: 659.25, duration: 200}, // E5
+                {freq: 783.99, duration: 400}, // G5
+                {freq: 1046.50, duration: 800}, // C6
+            ]
+        };
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playTone(freq, duration, type = 'sine') {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = freq;
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        function playMelody(melodyName) {
+            if (!musicPlaying || !audioContext) return;
+            
+            const melody = melodies[melodyName] || melodies.calm;
+            let noteIndex = 0;
+            
+            function playNext() {
+                if (!musicPlaying) return;
+                
+                const note = melody[noteIndex];
+                playTone(note.freq, note.duration);
+                
+                noteIndex = (noteIndex + 1) % melody.length;
+                musicInterval = setTimeout(playNext, note.duration + 100);
+            }
+            
+            playNext();
+        }
+
+        function toggleMusic() {
+            initAudio();
+            
+            if (musicPlaying) {
+                musicPlaying = false;
+                clearTimeout(musicInterval);
+                document.getElementById('music-btn').classList.remove('music-playing');
+                document.getElementById('music-btn').textContent = '🔇';
+            } else {
+                musicPlaying = true;
+                document.getElementById('music-btn').classList.add('music-playing');
+                document.getElementById('music-btn').textContent = '🎵';
+                playMelody('calm');
+            }
+        }
+
+        function playSuccessSound() {
+            initAudio();
+            if (audioContext) {
+                playMelody('success');
+            }
+        }
+
+        // Fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen error:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
         // Game State
         let gameState = {
             name: '',
@@ -1240,7 +1527,36 @@
             badges: []
         };
 
-        // Mission Data
+        // All profiles storage
+        function getAllProfiles() {
+            const allData = localStorage.getItem('brainExplorerAllProfiles');
+            return allData ? JSON.parse(allData) : {};
+        }
+
+        function saveAllProfiles(profiles) {
+            localStorage.setItem('brainExplorerAllProfiles', JSON.stringify(profiles));
+        }
+
+        function saveCurrentProfile() {
+            if (!gameState.name) return;
+            
+            const profiles = getAllProfiles();
+            profiles[gameState.name.toLowerCase()] = {...gameState};
+            saveAllProfiles(profiles);
+            localStorage.setItem('brainExplorerLastProfile', gameState.name);
+        }
+
+        function loadProfile(name) {
+            const profiles = getAllProfiles();
+            const profile = profiles[name.toLowerCase()];
+            if (profile) {
+                gameState = {...gameState, ...profile};
+                return true;
+            }
+            return false;
+        }
+
+        // Mission Data with more challenge games
         const missions = {
             focus: [
                 {
@@ -1248,21 +1564,36 @@
                     desc: "Keep your spotlight steady while crossing the bridge!",
                     task: "Click the stars to collect them. Don't get distracted by the floating shapes!",
                     type: "spotlight",
-                    reflection: "What happened when you got distracted? How did you bring your attention back?"
+                    reflectionOptions: [
+                        {text: "I noticed my attention wandering, then I brought it back!", value: "noticed"},
+                        {text: "I took a deep breath when I felt distracted", value: "breathe"},
+                        {text: "I focused on one star at a time", value: "focus"},
+                        {text: "I ignored the pretty distractions", value: "ignore"}
+                    ]
                 },
                 {
                     title: "Sound Hunter",
                     desc: "Train your ears to focus on important sounds.",
                     task: "Watch the pattern of sounds, then repeat it by clicking the buttons in order.",
                     type: "pattern",
-                    reflection: "Did you say the pattern quietly in your head to remember it?"
+                    reflectionOptions: [
+                        {text: "I said the pattern quietly in my head", value: "quiet"},
+                        {text: "I made a song with the sounds", value: "song"},
+                        {text: "I watched carefully and listened", value: "watch"},
+                        {text: "I took my time and didn't rush", value: "slow"}
+                    ]
                 },
                 {
                     title: "Focus Fuel",
                     desc: "Even explorers need breaks to recharge!",
                     task: "Do 10 jumping jacks, then count backwards from 20 as fast as you can.",
                     type: "physical",
-                    reflection: "How did your body feel after moving? Was it easier to focus?"
+                    reflectionOptions: [
+                        {text: "My body felt energized after moving!", value: "energy"},
+                        {text: "It was easier to focus after the break", value: "easy"},
+                        {text: "I felt happier and ready to learn", value: "happy"},
+                        {text: "My brain felt awake and alert", value: "awake"}
+                    ]
                 }
             ],
             memory: [
@@ -1271,21 +1602,36 @@
                     desc: "Plant memories in your garden so they grow strong!",
                     task: "Match the pairs. When you find a match, imagine drawing it in your memory garden!",
                     type: "matching",
-                    reflection: "Did making a picture in your head help you remember where cards were?"
+                    reflectionOptions: [
+                        {text: "I made pictures in my head to remember", value: "picture"},
+                        {text: "I remembered where cards were by their spot", value: "spot"},
+                        {text: "I said the names out loud to help me", value: "say"},
+                        {text: "I took my time and didn't rush", value: "slow"}
+                    ]
                 },
                 {
                     title: "Teach the Stuffy",
                     desc: "Teaching others helps your own brain learn better!",
                     task: "Memorize this joke, then tell it to your favorite toy: Why did the scarecrow win an award? Because he was outstanding in his field!",
                     type: "teach",
-                    reflection: "How did it feel to teach someone else? Did you understand the joke better?"
+                    reflectionOptions: [
+                        {text: "Teaching helped me understand better", value: "teach"},
+                        {text: "I felt proud sharing what I learned", value: "proud"},
+                        {text: "I remembered more by saying it out loud", value: "loud"},
+                        {text: "My toy friend helped me practice", value: "friend"}
+                    ]
                 },
                 {
                     title: "Memory Watering",
                     desc: "Good memories need to be visited again and again!",
                     task: "Look at 5 items for 10 seconds, wait 10 seconds, then recall them.",
                     type: "recall",
-                    reflection: "Which items were easiest to remember? Why do you think that is?"
+                    reflectionOptions: [
+                        {text: "The first and last items were easiest", value: "edges"},
+                        {text: "I made a story with all the items", value: "story"},
+                        {text: "I pictured them in my favorite place", value: "place"},
+                        {text: "Saying them over and over helped", value: "repeat"}
+                    ]
                 }
             ],
             challenge: [
@@ -1294,21 +1640,72 @@
                     desc: "Getting stuck is just your brain growing stronger!",
                     task: "Solve this puzzle: Arrange numbers 1-4 so each row and column has no repeats.",
                     type: "puzzle",
-                    reflection: "What did you try when you got stuck? How did it feel to keep trying?"
+                    reflectionOptions: [
+                        {text: "I tried different ways until it worked", value: "try"},
+                        {text: "I didn't give up even when it was hard", value: "persist"},
+                        {text: "I felt proud when I solved it!", value: "proud"},
+                        {text: "Mistakes helped me learn what not to do", value: "learn"}
+                    ]
                 },
                 {
                     title: "Yet Tower",
                     desc: "Add the magic word 'YET' to everything!",
                     task: "Build a tower. If it falls, say 'I haven't built it YET!' and try a different way.",
                     type: "tower",
-                    reflection: "How did saying 'yet' change how you felt about the mistake?"
+                    reflectionOptions: [
+                        {text: "Saying 'yet' made me feel hopeful", value: "hope"},
+                        {text: "I knew I could do it if I kept trying", value: "can"},
+                        {text: "The word 'yet' gave me power to continue", value: "power"},
+                        {text: "I didn't feel sad when it fell down", value: "brave"}
+                    ]
                 },
                 {
                     title: "Mistake Museum",
                     desc: "Our best learning comes from oops moments!",
                     task: "Think of a recent mistake. What did you learn from it?",
                     type: "reflect",
-                    reflection: "Was it hard to think about a mistake? What did you learn that you won't forget?"
+                    reflectionOptions: [
+                        {text: "Mistakes are just learning in disguise", value: "disguise"},
+                        {text: "Everyone makes mistakes, even grown-ups", value: "everyone"},
+                        {text: "My mistake taught me something important", value: "teach"},
+                        {text: "I'm not afraid to try again", value: "brave"}
+                    ]
+                },
+                {
+                    title: "Calm Breathing",
+                    desc: "When things get tough, breathe through it!",
+                    task: "Click the breathing circle. Breathe in as it grows, out as it shrinks. Do this 5 times.",
+                    type: "breathing",
+                    reflectionOptions: [
+                        {text: "I felt calmer after breathing slowly", value: "calm"},
+                        {text: "My body relaxed and my mind cleared", value: "relax"},
+                        {text: "I can use this when I feel frustrated", value: "tool"},
+                        {text: "Deep breathing helps me think better", value: "think"}
+                    ]
+                },
+                {
+                    title: "Word Scramble",
+                    desc: "Unscramble the letters to make a word!",
+                    task: "Look at the scrambled letters and type the correct word.",
+                    type: "scramble",
+                    reflectionOptions: [
+                        {text: "I looked for familiar letter patterns", value: "pattern"},
+                        {text: "I tried different combinations", value: "try"},
+                        {text: "I didn't give up when it was tricky", value: "persist"},
+                        {text: "I felt excited when I figured it out!", value: "excited"}
+                    ]
+                },
+                {
+                    title: "Mini Maze",
+                    desc: "Find your way through the maze!",
+                    task: "Click the green squares to move. Get from start 🟢 to finish ⭐ without hitting walls.",
+                    type: "maze",
+                    reflectionOptions: [
+                        {text: "I tried one path, then tried another", value: "path"},
+                        {text: "I remembered which ways were blocked", value: "remember"},
+                        {text: "I didn't get upset when I hit a wall", value: "calm"},
+                        {text: "I felt proud when I found the way!", value: "proud"}
+                    ]
                 }
             ],
             plan: [
@@ -1317,21 +1714,36 @@
                     desc: "Good explorers always make a plan before starting!",
                     task: "Drag the steps into the right order: Find the key, Open the chest, Get the gold.",
                     type: "sequence",
-                    reflection: "What would happen if you tried to open the chest before finding the key?"
+                    reflectionOptions: [
+                        {text: "I thought about what must come first", value: "first"},
+                        {text: "I imagined doing each step", value: "imagine"},
+                        {text: "Skipping steps wouldn't work", value: "order"},
+                        {text: "Planning helped me know what to do", value: "help"}
+                    ]
                 },
                 {
                     title: "First/Then Train",
                     desc: "Doing things in order helps us succeed!",
                     task: "Sort these morning items: Wake up, Eat breakfast, Brush teeth, Get dressed.",
                     type: "sort",
-                    reflection: "Why is it important to wake up before eating breakfast?"
+                    reflectionOptions: [
+                        {text: "Some things must happen before others", value: "before"},
+                        {text: "I pictured my morning routine", value: "routine"},
+                        {text: "Order helps me not forget things", value: "forget"},
+                        {text: "First/then makes mornings easier", value: "easy"}
+                    ]
                 },
                 {
                     title: "Plan B",
                     desc: "Sometimes plans change and we need to adapt!",
                     task: "You planned to play outside but it's raining! What indoor activities could you do?",
                     type: "adapt",
-                    reflection: "How did it feel when the plan changed? Was it easy to think of new ideas?"
+                    reflectionOptions: [
+                        {text: "I can think of new ideas when plans change", value: "ideas"},
+                        {text: "Being flexible helps me stay happy", value: "happy"},
+                        {text: "Rainy days can be fun too!", value: "fun"},
+                        {text: "I don't get upset when things change", value: "calm"}
+                    ]
                 }
             ]
         };
@@ -1346,24 +1758,44 @@
         });
 
         function loadGame() {
-            const saved = localStorage.getItem('brainExplorerData');
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                // Merge with defaults to ensure all fields exist
-                gameState = { ...gameState, ...parsed };
-                if (!gameState.badges) gameState.badges = [];
-                if (!gameState.sessions) gameState.sessions = [];
-                if (gameState.name) {
-                    updateDashboard();
-                    showScreen('screen-dashboard');
-                    return true;
-                }
+            const lastProfile = localStorage.getItem('brainExplorerLastProfile');
+            if (lastProfile && loadProfile(lastProfile)) {
+                updateDashboard();
+                showScreen('screen-dashboard');
+                return true;
             }
             return false;
         }
 
-        function saveGame() {
-            localStorage.setItem('brainExplorerData', JSON.stringify(gameState));
+        function loadExistingProfile() {
+            const profiles = getAllProfiles();
+            const names = Object.keys(profiles);
+            
+            if (names.length === 0) {
+                alert('No saved profiles found. Create a new explorer!');
+                return;
+            }
+            
+            const container = document.getElementById('profiles-list');
+            const wrapper = document.getElementById('existing-profiles');
+            
+            container.innerHTML = names.map(name => `
+                <div class="profile-item" onclick="selectProfile('${name}')" style="cursor: pointer;">
+                    <span style="font-size: 1.5em;">${profiles[name].avatar}</span>
+                    <span style="font-weight: bold; text-transform: capitalize;">${name}</span>
+                    <span style="color: #888;">Level ${profiles[name].level}</span>
+                </div>
+            `).join('');
+            
+            wrapper.classList.remove('hidden');
+        }
+
+        function selectProfile(name) {
+            if (loadProfile(name)) {
+                updateDashboard();
+                showScreen('screen-dashboard');
+                document.getElementById('existing-profiles').classList.add('hidden');
+            }
         }
 
         function createExplorer() {
@@ -1372,8 +1804,23 @@
                 alert('Please enter your explorer name!');
                 return;
             }
+            
+            const name = nameInput.value.trim().toLowerCase();
+            
+            // Check if profile exists
+            if (getAllProfiles()[name]) {
+                if (confirm('A profile with this name already exists. Load it?')) {
+                    loadProfile(name);
+                    updateDashboard();
+                    showScreen('screen-dashboard');
+                    return;
+                }
+                return;
+            }
+            
             gameState.name = nameInput.value.trim();
-            saveGame();
+            gameState.avatar = document.querySelector('.avatar-option.selected').dataset.avatar;
+            saveCurrentProfile();
             updateDashboard();
             showScreen('screen-dashboard');
         }
@@ -1416,13 +1863,15 @@
 
         function startMission(type) {
             const missionIndex = gameState.missionsCompleted[type];
-            if (missionIndex >= missions[type].length) {
+            const availableMissions = missions[type];
+            
+            if (missionIndex >= availableMissions.length) {
                 alert('You have completed all missions on this island! Great job! Try another island!');
                 return;
             }
             
             gameState.currentMission = { type, index: missionIndex };
-            const mission = missions[type][missionIndex];
+            const mission = availableMissions[missionIndex];
             
             const colors = {
                 focus: 'focus-blue',
@@ -1463,6 +1912,12 @@
                     return '<div id="puzzle-game" style="font-size: 1.2em;"><p>Click cells to change numbers. No repeats in rows or columns!</p><div id="sudoku-grid" style="margin-top: 20px;"></div></div>';
                 case 'pattern':
                     return '<div id="pattern-game"><div id="pattern-display" style="font-size: 2em; margin: 20px; min-height: 50px;">Watch...</div><div id="pattern-buttons" style="margin: 20px;"></div></div>';
+                case 'breathing':
+                    return '<div class="challenge-game-area"><div class="breathing-circle" id="breathe-circle">Breathe</div><p>Click 5 times as it grows and shrinks!</p><div id="breathe-count">0 / 5</div></div>';
+                case 'scramble':
+                    return '<div class="challenge-game-area"><div class="word-scramble" id="scramble-word"></div><input type="text" class="scramble-input" id="scramble-input" placeholder="Type word here"><br><button class="btn mt-20" onclick="checkScramble()">Check Answer ✓</button><button class="btn btn-orange btn-small" onclick="newScramble()">New Word 🔄</button></div>';
+                case 'maze':
+                    return '<div class="challenge-game-area"><div class="maze-grid" id="maze-grid"></div><p>Use arrow keys or click adjacent green squares to move!</p></div>';
                 default:
                     return '<div style="padding: 40px; text-align: center;"><p>Complete this mission with a grown-up!</p><button class="btn btn-green" onclick="completeMission()">I Did It! ✓</button></div>';
             }
@@ -1477,13 +1932,22 @@
         let puzzleGrid = [[0,0],[0,0]];
         let patternSequence = [];
         let playerPattern = [];
+        let breatheCount = 0;
+        let mazePlayer = {x: 0, y: 0};
+        let mazeGoal = {x: 4, y: 4};
 
         function initGame(type, gameType) {
-            if (gameType === 'spotlight') initSpotlight();
-            else if (gameType === 'matching') initMemory();
-            else if (gameType === 'sequence' || gameType === 'sort') initSortable(type);
-            else if (gameType === 'puzzle') initPuzzle();
-            else if (gameType === 'pattern') initPattern();
+            switch(gameType) {
+                case 'spotlight': initSpotlight(); break;
+                case 'matching': initMemory(); break;
+                case 'sequence':
+                case 'sort': initSortable(type); break;
+                case 'puzzle': initPuzzle(); break;
+                case 'pattern': initPattern(); break;
+                case 'breathing': initBreathing(); break;
+                case 'scramble': initScramble(); break;
+                case 'maze': initMaze(); break;
+            }
         }
 
         function initSpotlight() {
@@ -1505,8 +1969,11 @@
                     starsCollected++;
                     star.remove();
                     spawnDistraction();
-                    if (starsCollected < 10) setTimeout(spawnStar, 600);
-                    else completeMission();
+                    if (starsCollected >= 10) {
+                        setTimeout(completeMission, 300);
+                    } else {
+                        setTimeout(spawnStar, 600);
+                    }
                 };
                 area.appendChild(star);
                 setTimeout(() => { if(star.parentNode) star.remove(); }, 2000);
@@ -1732,23 +2199,164 @@
             }
         }
 
+        // New Challenge Games
+        function initBreathing() {
+            breatheCount = 0;
+            const circle = document.getElementById('breathe-circle');
+            const countDisplay = document.getElementById('breathe-count');
+            
+            circle.onclick = () => {
+                breatheCount++;
+                countDisplay.textContent = `${breatheCount} / 5`;
+                
+                if (breatheCount >= 5) {
+                    setTimeout(() => {
+                        alert('Great job staying calm and focused! 🧘');
+                        completeMission();
+                    }, 500);
+                }
+            };
+        }
+
+        const scrambleWords = ['LEARN', 'BRAIN', 'FOCUS', 'GROW', 'SMART', 'THINK', 'TRY', 'YET'];
+        let currentScramble = '';
+
+        function initScramble() {
+            newScramble();
+        }
+
+        function newScramble() {
+            currentScramble = scrambleWords[Math.floor(Math.random() * scrambleWords.length)];
+            const scrambled = currentScramble.split('').sort(() => Math.random() - 0.5).join('');
+            document.getElementById('scramble-word').textContent = scrambled;
+            document.getElementById('scramble-input').value = '';
+        }
+
+        function checkScramble() {
+            const input = document.getElementById('scramble-input').value.toUpperCase().trim();
+            if (input === currentScramble) {
+                alert('Correct! Great problem solving! 🎉');
+                completeMission();
+            } else {
+                alert('Not quite! Try rearranging the letters.');
+            }
+        }
+
+        function initMaze() {
+            mazePlayer = {x: 0, y: 0};
+            mazeGoal = {x: 4, y: 4};
+            
+            // Simple 5x5 maze with walls
+            const maze = [
+                [0, 0, 1, 0, 0],
+                [1, 0, 1, 0, 1],
+                [0, 0, 0, 0, 0],
+                [0, 1, 1, 1, 0],
+                [0, 0, 0, 0, 0]
+            ];
+            
+            const grid = document.getElementById('maze-grid');
+            grid.innerHTML = '';
+            
+            for (let y = 0; y < 5; y++) {
+                for (let x = 0; x < 5; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'maze-cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    if (maze[y][x] === 1) {
+                        cell.classList.add('wall');
+                    } else {
+                        cell.classList.add('path');
+                        cell.onclick = () => movePlayer(x, y);
+                    }
+                    
+                    if (x === 0 && y === 0) {
+                        cell.classList.add('player');
+                        cell.textContent = '🟢';
+                    } else if (x === 4 && y === 4) {
+                        cell.classList.add('goal');
+                        cell.textContent = '⭐';
+                    }
+                    
+                    grid.appendChild(cell);
+                }
+            }
+            
+            // Keyboard controls
+            document.onkeydown = (e) => {
+                const moves = {
+                    'ArrowUp': {x: 0, y: -1},
+                    'ArrowDown': {x: 0, y: 1},
+                    'ArrowLeft': {x: -1, y: 0},
+                    'ArrowRight': {x: 1, y: 0}
+                };
+                
+                if (moves[e.key]) {
+                    e.preventDefault();
+                    const newX = mazePlayer.x + moves[e.key].x;
+                    const newY = mazePlayer.y + moves[e.key].y;
+                    if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5 && maze[newY][newX] === 0) {
+                        movePlayer(newX, newY);
+                    }
+                }
+            };
+        }
+
+        function movePlayer(x, y) {
+            // Check if move is valid (adjacent and not wall)
+            const dx = Math.abs(x - mazePlayer.x);
+            const dy = Math.abs(y - mazePlayer.y);
+            
+            if (dx + dy !== 1) return; // Must be adjacent
+            
+            // Clear old position
+            const oldCell = document.querySelector(`.maze-cell[data-x="${mazePlayer.x}"][data-y="${mazePlayer.y}"]`);
+            oldCell.classList.remove('player');
+            oldCell.textContent = '';
+            
+            // Set new position
+            mazePlayer.x = x;
+            mazePlayer.y = y;
+            
+            const newCell = document.querySelector(`.maze-cell[data-x="${x}"][data-y="${y}"]`);
+            newCell.classList.add('player');
+            newCell.textContent = '🟢';
+            
+            // Check win
+            if (x === mazeGoal.x && y === mazeGoal.y) {
+                document.onkeydown = null;
+                setTimeout(() => {
+                    alert('You found the way! Great persistence! 🎉');
+                    completeMission();
+                }, 300);
+            }
+        }
+
         function completeMission() {
             const { type, index } = gameState.currentMission;
             const mission = missions[type][index];
             
+            let optionsHtml = mission.reflectionOptions.map((opt, i) => 
+                `<button class="reflection-btn" onclick="finishReflection('${opt.value}')">${opt.text}</button>`
+            ).join('');
+            
             const html = `
                 <div class="reflection">
                     <h3>🤔 Brain Reflection Time</h3>
-                    <p style="margin-bottom: 15px;"><strong>${mission.reflection}</strong></p>
+                    <p style="margin-bottom: 15px;"><strong>What helped you succeed in this mission?</strong></p>
                     <div class="reflection-options">
-                        <button class="reflection-btn" onclick="finishReflection('noticed')">I noticed my attention wandering, then I brought it back!</button>
-                        <button class="reflection-btn" onclick="finishReflection('kept')">I felt frustrated but kept trying!</button>
-                        <button class="reflection-btn" onclick="finishReflection('picture')">I made a picture in my head to help me!</button>
-                        <button class="reflection-btn" onclick="finishReflection('steps')">I broke it into smaller steps!</button>
+                        ${optionsHtml}
                     </div>
                 </div>
             `;
             document.getElementById('mission-content').innerHTML = html;
+            
+            // Play success sound if music is on
+            if (musicPlaying) {
+                playSuccessSound();
+            }
         }
 
         function finishReflection(answer) {
@@ -1772,7 +2380,7 @@
                 gameState.badges.push('master');
             }
             
-            saveGame();
+            saveCurrentProfile();
             showReward();
         }
 
@@ -1849,7 +2457,7 @@
 
         function resetGame() {
             if (confirm('Start over with a new explorer? Your current progress will be saved separately.')) {
-                localStorage.setItem('brainExplorerBackup', JSON.stringify(gameState));
+                saveCurrentProfile(); // Save current before resetting
                 gameState = {
                     name: '',
                     avatar: '🦁',
@@ -1863,7 +2471,8 @@
                     currentMission: null,
                     badges: []
                 };
-                saveGame();
+                document.getElementById('explorer-name').value = '';
+                document.getElementById('existing-profiles').classList.add('hidden');
                 showScreen('screen-create');
             }
         }
@@ -1922,6 +2531,7 @@
             generateTips();
             updateTimeline();
             generateWeeklyReport();
+            updateSavedProfilesList();
         }
 
         function generateInsights() {
@@ -2062,6 +2672,34 @@
             document.getElementById('recommendation').textContent = rec;
         }
 
+        function updateSavedProfilesList() {
+            const profiles = getAllProfiles();
+            const container = document.getElementById('saved-profiles-list');
+            
+            if (Object.keys(profiles).length === 0) {
+                container.innerHTML = '<p style="color: #888;">No saved profiles found.</p>';
+                return;
+            }
+            
+            container.innerHTML = Object.entries(profiles).map(([name, data]) => `
+                <div class="profile-item">
+                    <div>
+                        <span style="font-size: 1.5em; margin-right: 10px;">${data.avatar}</span>
+                        <span style="font-weight: bold; text-transform: capitalize;">${name}</span>
+                        <span style="color: #888; margin-left: 10px;">Level ${data.level} • ${Object.values(data.missionsCompleted).reduce((a,b)=>a+b,0)} missions</span>
+                    </div>
+                    <button class="btn btn-small" onclick="switchToProfile('${name}')">View</button>
+                </div>
+            `).join('');
+        }
+
+        function switchToProfile(name) {
+            if (loadProfile(name)) {
+                updateParentDashboard();
+                alert(`Switched to ${name}'s profile`);
+            }
+        }
+
         function toggleOffline() {
             const toggle = document.getElementById('offline-toggle');
             const ideas = document.getElementById('offline-ideas');
@@ -2090,6 +2728,94 @@
             link.href = url;
             link.download = `BrainExplorer_${gameState.name}_${new Date().toISOString().split('T')[0]}.json`;
             link.click();
+        }
+
+        function exportAllData() {
+            const allProfiles = getAllProfiles();
+            const dataStr = JSON.stringify(allProfiles, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `BrainExplorer_AllProfiles_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+        }
+
+        // Reset Functions
+        function resetCurrentPlayer() {
+            if (!gameState.name) {
+                alert('No current player to reset');
+                return;
+            }
+            
+            if (!confirm(`⚠️ WARNING: This will permanently delete ALL progress for ${gameState.name}.\n\nThis cannot be undone!\n\nAre you sure?`)) {
+                return;
+            }
+            
+            if (!confirm(`FINAL WARNING: Delete ${gameState.name}'s profile forever?`)) {
+                return;
+            }
+            
+            const profiles = getAllProfiles();
+            delete profiles[gameState.name.toLowerCase()];
+            saveAllProfiles(profiles);
+            
+            // Reset current state
+            gameState = {
+                name: '',
+                avatar: '🦁',
+                level: 1,
+                title: 'Trainee',
+                stats: { focus: 0, memory: 0, challenge: 0, plan: 0 },
+                missionsCompleted: { focus: 0, memory: 0, challenge: 0, plan: 0 },
+                crystals: 0,
+                playTime: 0,
+                sessions: [],
+                currentMission: null,
+                badges: []
+            };
+            
+            localStorage.removeItem('brainExplorerLastProfile');
+            
+            alert(`✅ ${gameState.name}'s profile has been deleted.`);
+            updateParentDashboard();
+            showScreen('screen-about');
+        }
+
+        function resetAllPlayers() {
+            if (!confirm('⚠️ EXTREME WARNING: This will DELETE ALL PROFILES for ALL players.\n\nThis cannot be undone!\n\nAre you absolutely sure?')) {
+                return;
+            }
+            
+            if (!confirm('FINAL WARNING: Delete EVERYTHING forever?')) {
+                return;
+            }
+            
+            if (prompt('Type DELETE to confirm:') !== 'DELETE') {
+                alert('Reset cancelled. Type DELETE in all caps to confirm.');
+                return;
+            }
+            
+            localStorage.removeItem('brainExplorerAllProfiles');
+            localStorage.removeItem('brainExplorerLastProfile');
+            
+            gameState = {
+                name: '',
+                avatar: '🦁',
+                level: 1,
+                title: 'Trainee',
+                stats: { focus: 0, memory: 0, challenge: 0, plan: 0 },
+                missionsCompleted: { focus: 0, memory: 0, challenge: 0, plan: 0 },
+                crystals: 0,
+                playTime: 0,
+                sessions: [],
+                currentMission: null,
+                badges: []
+            };
+            
+            alert('✅ All profiles have been deleted. Starting fresh.');
+            updateParentDashboard();
+            showScreen('screen-about');
         }
 
         // Initialize
