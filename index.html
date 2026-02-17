@@ -37,7 +37,6 @@
             padding: 20px;
         }
         
-        /* Header */
         .game-header {
             text-align: center;
             color: white;
@@ -62,7 +61,6 @@
             opacity: 0.9;
         }
         
-        /* Screens */
         .screen {
             display: none;
             animation: slideIn 0.5s ease;
@@ -77,7 +75,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Cards */
         .card {
             background: white;
             border-radius: 20px;
@@ -95,13 +92,6 @@
             gap: 10px;
         }
         
-        .card h3 {
-            color: var(--dark);
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-        
-        /* Buttons */
         .btn {
             background: linear-gradient(135deg, var(--focus-blue), #3dbdb4);
             color: white;
@@ -144,7 +134,18 @@
             box-shadow: 0 4px 15px rgba(42, 157, 143, 0.4);
         }
         
-        /* Kids Game Styles */
+        .nav-bar {
+            background: white;
+            padding: 15px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
         .avatar-selection {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -255,6 +256,11 @@
             transition: width 0.5s ease;
         }
         
+        .fill-focus { background: var(--focus-blue); }
+        .fill-memory { background: var(--memory-green); }
+        .fill-challenge { background: var(--challenge-orange); }
+        .fill-plan { background: var(--plan-purple); }
+        
         .islands-map {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -272,30 +278,8 @@
             overflow: hidden;
         }
         
-        .island::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .island:hover::before {
-            opacity: 1;
-        }
-        
         .island:hover {
             transform: translateY(-5px) scale(1.02);
-        }
-        
-        .island-locked {
-            opacity: 0.6;
-            cursor: not-allowed;
-            filter: grayscale(0.5);
         }
         
         .island-icon {
@@ -398,6 +382,7 @@
             font-size: 2em;
             cursor: pointer;
             transition: all 0.3s;
+            min-height: 80px;
         }
         
         .memory-card:hover {
@@ -455,47 +440,11 @@
             100% { transform: translate(0, 0) rotate(360deg); }
         }
         
-        .puzzle-piece {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background: var(--challenge-orange);
-            margin: 5px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            color: white;
-            cursor: move;
-            transition: all 0.3s;
-        }
-        
-        .puzzle-piece:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        
-        .puzzle-slot {
-            width: 60px;
-            height: 60px;
-            border: 3px dashed #ccc;
-            margin: 5px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            vertical-align: top;
-        }
-        
-        .puzzle-slot.filled {
-            border-color: var(--memory-green);
-            background: rgba(149, 225, 211, 0.3);
-        }
-        
         .task-list {
             list-style: none;
             text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
         }
         
         .task-item {
@@ -563,12 +512,6 @@
             background: #fffef5;
         }
         
-        .reflection-btn.selected {
-            border-color: var(--gold);
-            background: var(--gold);
-            color: var(--dark);
-        }
-        
         .crystal {
             display: inline-block;
             font-size: 2em;
@@ -583,7 +526,7 @@
         
         .reward-screen {
             text-align: center;
-            padding: 40px;
+            padding: 20px;
         }
         
         .reward-screen h2 {
@@ -602,19 +545,19 @@
         .badges-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 20px 0;
             flex-wrap: wrap;
         }
         
         .badge {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5em;
+            font-size: 2em;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             border: 4px solid #ddd;
             opacity: 0.5;
@@ -637,7 +580,7 @@
         /* Parent Dashboard Styles */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
         }
         
@@ -646,11 +589,6 @@
             border-radius: 15px;
             padding: 20px;
             text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
         }
         
         .stat-number {
@@ -658,11 +596,6 @@
             font-size: 2.5em;
             color: var(--dark);
             margin: 10px 0;
-        }
-        
-        .stat-label {
-            color: #666;
-            font-weight: 600;
         }
         
         .skill-bar {
@@ -787,11 +720,6 @@
             font-family: 'Fredoka One', cursive;
         }
         
-        .tip-card p {
-            color: #555;
-            line-height: 1.6;
-        }
-        
         .tip-action {
             background: white;
             padding: 10px 15px;
@@ -809,12 +737,6 @@
             margin: 15px 0;
         }
         
-        .insight-box strong {
-            color: #1565C0;
-            display: block;
-            margin-bottom: 5px;
-        }
-        
         .comparison-chart {
             display: flex;
             height: 200px;
@@ -827,16 +749,10 @@
         }
         
         .chart-bar {
-            width: 60px;
+            width: 50px;
             border-radius: 10px 10px 0 0;
             transition: all 0.3s;
             position: relative;
-            cursor: pointer;
-        }
-        
-        .chart-bar:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
         }
         
         .chart-bar::after {
@@ -901,11 +817,6 @@
             padding: 40px;
         }
         
-        .parent-gate h2 {
-            color: var(--dark);
-            margin-bottom: 20px;
-        }
-        
         .pin-input {
             display: flex;
             justify-content: center;
@@ -928,32 +839,8 @@
             border-color: var(--parent-teal);
         }
         
-        .nav-bar {
-            background: white;
-            padding: 15px;
-            border-radius: 50px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .game-header h1 { font-size: 2em; }
-            .islands-map { grid-template-columns: 1fr; }
-            .avatar-selection { grid-template-columns: repeat(2, 1fr); }
-            .memory-grid { grid-template-columns: repeat(3, 1fr); }
-            .comparison-chart { height: 150px; }
-            .chart-bar { width: 40px; }
-            .explorer-card { flex-direction: column; text-align: center; }
-        }
-        
         .text-center { text-align: center; }
         .mt-20 { margin-top: 20px; }
-        .mb-20 { margin-bottom: 20px; }
         .hidden { display: none !important; }
         
         .confetti {
@@ -961,7 +848,6 @@
             width: 10px;
             height: 10px;
             background: var(--gold);
-            position: absolute;
             animation: confetti-fall 3s linear forwards;
             z-index: 1000;
         }
@@ -971,29 +857,30 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
         
-        @media print {
-            .btn, .toggle-container, .nav-bar { display: none; }
-            .card { break-inside: avoid; }
+        @media (max-width: 768px) {
+            .game-header h1 { font-size: 2em; }
+            .islands-map { grid-template-columns: 1fr; }
+            .avatar-selection { grid-template-columns: repeat(2, 1fr); }
+            .memory-grid { grid-template-columns: repeat(3, 1fr); }
+            .explorer-card { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="game-header">
             <h1>🧠 Brain Explorer Academy</h1>
             <p class="subtitle">Learn How to Learn • Ages 5-7</p>
         </div>
 
-        <!-- Navigation Bar -->
         <div class="nav-bar" id="main-nav">
             <button class="btn" onclick="showScreen('screen-create')">🎮 Play Game</button>
             <button class="btn btn-parent" onclick="showParentGate()">👨‍👩‍👧 Parent Dashboard</button>
             <button class="btn btn-purple" onclick="showScreen('screen-about')">ℹ️ About</button>
         </div>
 
-        <!-- Screen: About -->
-        <div id="screen-about" class="screen">
+        <!-- About Screen -->
+        <div id="screen-about" class="screen active">
             <div class="card">
                 <h2>🌟 Welcome to Brain Explorer Academy!</h2>
                 <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin-bottom: 20px;">
@@ -1005,10 +892,6 @@
                     <li><strong>🧗 Challenge Canyon</strong> - Growth mindset and resilience</li>
                     <li><strong>🗺️ Plan Peak</strong> - Organization and planning</li>
                 </ul>
-                <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin-bottom: 20px;">
-                    Each island has 3 interactive missions with built-in reflection questions to build 
-                    <strong>metacognition</strong> (thinking about thinking).
-                </p>
                 <div class="text-center mt-20">
                     <button class="btn" style="font-size: 1.2em; padding: 15px 40px;" onclick="showScreen('screen-create')">
                         Start Your Adventure! 🚀
@@ -1021,13 +904,13 @@
             </div>
         </div>
 
-        <!-- Screen: Character Creation -->
+        <!-- Character Creation -->
         <div id="screen-create" class="screen">
             <div class="card">
                 <h2 class="text-center">Create Your Explorer</h2>
                 
                 <div class="avatar-selection">
-                    <div class="avatar-option" data-avatar="🦁">🦁</div>
+                    <div class="avatar-option selected" data-avatar="🦁">🦁</div>
                     <div class="avatar-option" data-avatar="🚀">🚀</div>
                     <div class="avatar-option" data-avatar="🌟">🌟</div>
                     <div class="avatar-option" data-avatar="🦸">🦸</div>
@@ -1045,7 +928,7 @@
             </div>
         </div>
 
-        <!-- Screen: Kids Dashboard -->
+        <!-- Kids Dashboard -->
         <div id="screen-dashboard" class="screen">
             <div class="explorer-card">
                 <div class="explorer-avatar" id="dash-avatar">🦁</div>
@@ -1126,16 +1009,14 @@
             </div>
         </div>
 
-        <!-- Screen: Mission -->
+        <!-- Mission Screen -->
         <div id="screen-mission" class="screen">
             <div class="mission-container">
-                <div id="mission-content">
-                    <!-- Dynamic mission content loads here -->
-                </div>
+                <div id="mission-content"></div>
             </div>
         </div>
 
-        <!-- Screen: Reward -->
+        <!-- Reward Screen -->
         <div id="screen-reward" class="screen">
             <div class="card reward-screen">
                 <h2>Mission Complete! 🎉</h2>
@@ -1152,20 +1033,18 @@
             </div>
         </div>
 
-        <!-- Screen: Badge Collection -->
+        <!-- Badges Screen -->
         <div id="screen-badges" class="screen">
             <div class="card">
                 <h2 class="text-center">Your Badge Collection</h2>
-                <div class="badges-container" id="full-badge-collection" style="flex-direction: column; align-items: center;">
-                    <!-- Populated by JS -->
-                </div>
+                <div class="badges-container" id="full-badge-collection" style="flex-direction: column; align-items: center;"></div>
                 <div class="text-center mt-20">
                     <button class="btn" onclick="returnToDashboard()">Back to Academy 🏠</button>
                 </div>
             </div>
         </div>
 
-        <!-- Screen: Parent Gate -->
+        <!-- Parent Gate -->
         <div id="screen-parent-gate" class="screen">
             <div class="card parent-gate">
                 <h2>🔒 Parent Area</h2>
@@ -1176,13 +1055,13 @@
                     <input type="password" class="pin-digit" maxlength="1" id="pin3" onkeyup="movePin(3)">
                     <input type="password" class="pin-digit" maxlength="1" id="pin4" onkeyup="checkPin()">
                 </div>
-                <p style="color: #888; font-size: 0.9em;">Default: 1234 (change in code)</p>
+                <p style="color: #888; font-size: 0.9em;">Default: 1234</p>
                 <button class="btn btn-parent mt-20" onclick="checkPin()">Unlock 🔓</button>
                 <button class="btn mt-20" onclick="showScreen('screen-about')">Back to Game 🔙</button>
             </div>
         </div>
 
-        <!-- Screen: Parent Dashboard -->
+        <!-- Parent Dashboard -->
         <div id="screen-parent" class="screen">
             <div class="card">
                 <h2>📈 Learning Overview</h2>
@@ -1357,7 +1236,8 @@
             crystals: 0,
             playTime: 0,
             sessions: [],
-            currentMission: null
+            currentMission: null,
+            badges: []
         };
 
         // Mission Data
@@ -1368,7 +1248,6 @@
                     desc: "Keep your spotlight steady while crossing the bridge!",
                     task: "Click the stars to collect them. Don't get distracted by the floating shapes!",
                     type: "spotlight",
-                    time: 30,
                     reflection: "What happened when you got distracted? How did you bring your attention back?"
                 },
                 {
@@ -1376,15 +1255,13 @@
                     desc: "Train your ears to focus on important sounds.",
                     task: "Watch the pattern of sounds, then repeat it by clicking the buttons in order.",
                     type: "pattern",
-                    time: 45,
                     reflection: "Did you say the pattern quietly in your head to remember it?"
                 },
                 {
                     title: "Focus Fuel",
                     desc: "Even explorers need breaks to recharge!",
-                    task: "Do 10 jumping jacks, then come back and count backwards from 20 as fast as you can.",
+                    task: "Do 10 jumping jacks, then count backwards from 20 as fast as you can.",
                     type: "physical",
-                    time: 60,
                     reflection: "How did your body feel after moving? Was it easier to focus?"
                 }
             ],
@@ -1392,25 +1269,22 @@
                 {
                     title: "Seed Planting",
                     desc: "Plant memories in your garden so they grow strong!",
-                    task: "Match the pairs. When you find a match, draw it in your memory garden (imagine it)!",
+                    task: "Match the pairs. When you find a match, imagine drawing it in your memory garden!",
                     type: "matching",
-                    time: 60,
                     reflection: "Did making a picture in your head help you remember where cards were?"
                 },
                 {
                     title: "Teach the Stuffy",
                     desc: "Teaching others helps your own brain learn better!",
-                    task: "Memorize this joke, then tell it to your favorite toy or person: Why did the scarecrow win an award? Because he was outstanding in his field!",
+                    task: "Memorize this joke, then tell it to your favorite toy: Why did the scarecrow win an award? Because he was outstanding in his field!",
                     type: "teach",
-                    time: 45,
                     reflection: "How did it feel to teach someone else? Did you understand the joke better?"
                 },
                 {
                     title: "Memory Watering",
                     desc: "Good memories need to be visited again and again!",
-                    task: "Look at these 5 items for 10 seconds. Wait 10 seconds. Then write down all you remember.",
+                    task: "Look at 5 items for 10 seconds, wait 10 seconds, then recall them.",
                     type: "recall",
-                    time: 30,
                     reflection: "Which items were easiest to remember? Why do you think that is?"
                 }
             ],
@@ -1420,23 +1294,20 @@
                     desc: "Getting stuck is just your brain growing stronger!",
                     task: "Solve this puzzle: Arrange numbers 1-4 so each row and column has no repeats.",
                     type: "puzzle",
-                    time: 90,
                     reflection: "What did you try when you got stuck? How did it feel to keep trying?"
                 },
                 {
                     title: "Yet Tower",
                     desc: "Add the magic word 'YET' to everything!",
-                    task: "Build a tower with blocks (or draw one). If it falls, say 'I haven't built it YET!' and try a different way.",
+                    task: "Build a tower. If it falls, say 'I haven't built it YET!' and try a different way.",
                     type: "tower",
-                    time: 60,
                     reflection: "How did saying 'yet' change how you felt about the mistake?"
                 },
                 {
                     title: "Mistake Museum",
                     desc: "Our best learning comes from oops moments!",
-                    task: "Think of a recent mistake you made. Draw it or describe it, then write what you learned from it.",
+                    task: "Think of a recent mistake. What did you learn from it?",
                     type: "reflect",
-                    time: 45,
                     reflection: "Was it hard to think about a mistake? What did you learn that you won't forget?"
                 }
             ],
@@ -1444,25 +1315,22 @@
                 {
                     title: "Treasure Hunt Map",
                     desc: "Good explorers always make a plan before starting!",
-                    task: "You need to: 1) Find the key 2) Open the chest 3) Get the gold. Drag the steps into the right order!",
+                    task: "Drag the steps into the right order: Find the key, Open the chest, Get the gold.",
                     type: "sequence",
-                    time: 45,
                     reflection: "What would happen if you tried to open the chest before finding the key?"
                 },
                 {
                     title: "First/Then Train",
                     desc: "Doing things in order helps us succeed!",
-                    task: "Sort these morning routine items: Eat breakfast, Wake up, Brush teeth, Get dressed. What's first? Then what?",
+                    task: "Sort these morning items: Wake up, Eat breakfast, Brush teeth, Get dressed.",
                     type: "sort",
-                    time: 40,
-                    reflection: "Why is it important to wake up before eating breakfast? What happens if we skip steps?"
+                    reflection: "Why is it important to wake up before eating breakfast?"
                 },
                 {
                     title: "Plan B",
                     desc: "Sometimes plans change and we need to adapt!",
-                    task: "You planned to play outside but it's raining! Drag 3 indoor activities you'd do instead.",
+                    task: "You planned to play outside but it's raining! What indoor activities could you do?",
                     type: "adapt",
-                    time: 35,
                     reflection: "How did it feel when the plan changed? Was it easy to think of new ideas?"
                 }
             ]
@@ -1477,16 +1345,21 @@
             });
         });
 
-        // Load saved data
         function loadGame() {
             const saved = localStorage.getItem('brainExplorerData');
             if (saved) {
-                gameState = JSON.parse(saved);
+                const parsed = JSON.parse(saved);
+                // Merge with defaults to ensure all fields exist
+                gameState = { ...gameState, ...parsed };
+                if (!gameState.badges) gameState.badges = [];
+                if (!gameState.sessions) gameState.sessions = [];
                 if (gameState.name) {
                     updateDashboard();
                     showScreen('screen-dashboard');
+                    return true;
                 }
             }
+            return false;
         }
 
         function saveGame() {
@@ -1544,18 +1417,24 @@
         function startMission(type) {
             const missionIndex = gameState.missionsCompleted[type];
             if (missionIndex >= missions[type].length) {
-                alert('You have completed all missions on this island! Try another one!');
+                alert('You have completed all missions on this island! Great job! Try another island!');
                 return;
             }
             
             gameState.currentMission = { type, index: missionIndex };
             const mission = missions[type][missionIndex];
             
+            const colors = {
+                focus: 'focus-blue',
+                memory: 'memory-green',
+                challenge: 'challenge-orange',
+                plan: 'plan-purple'
+            };
+            
             let html = `
-                <div class="mission-card" style="border-color: var(--${type === 'focus' ? 'focus-blue' : type === 'memory' ? 'memory-green' : type === 'challenge' ? 'challenge-orange' : 'plan-purple'})">
+                <div class="mission-card" style="border-color: var(--${colors[type]})">
                     <div class="mission-title">${mission.title}</div>
                     <div class="mission-desc">${mission.desc}</div>
-                    <div class="timer" id="mission-timer">⏱️ ${mission.time}s</div>
                     <div class="mission-task">
                         <strong>Your Mission:</strong> ${mission.task}
                     </div>
@@ -1574,22 +1453,22 @@
         function getGameHTML(type, gameType) {
             switch(gameType) {
                 case 'spotlight':
-                    return '<div class="spotlight-area" id="spotlight-game"></div><p>Click 10 stars to win! Avoid distractions!</p>';
+                    return '<div class="spotlight-area" id="spotlight-game"></div><p style="margin-top: 15px;">Click 10 stars to win! Avoid distractions!</p>';
                 case 'matching':
-                    return '<div class="memory-grid" id="memory-game"></div><p>Find all matching pairs!</p>';
+                    return '<div class="memory-grid" id="memory-game"></div><p style="margin-top: 15px;">Find all matching pairs!</p>';
                 case 'sequence':
                 case 'sort':
-                    return '<ul class="task-list" id="sortable-list"></ul><button class="btn" onclick="checkOrder()">Check Order ✓</button>';
+                    return '<ul class="task-list" id="sortable-list"></ul><button class="btn mt-20" onclick="checkOrder()">Check Order ✓</button>';
                 case 'puzzle':
-                    return '<div id="puzzle-game" style="font-size: 1.2em;"><p>Click cells to cycle through numbers 1-4. No repeats in rows or columns!</p><div id="sudoku-grid"></div></div>';
+                    return '<div id="puzzle-game" style="font-size: 1.2em;"><p>Click cells to change numbers. No repeats in rows or columns!</p><div id="sudoku-grid" style="margin-top: 20px;"></div></div>';
                 case 'pattern':
-                    return '<div id="pattern-game"><div id="pattern-display" style="font-size: 2em; margin: 20px;"></div><div id="pattern-buttons" style="margin: 20px;"></div></div>';
+                    return '<div id="pattern-game"><div id="pattern-display" style="font-size: 2em; margin: 20px; min-height: 50px;">Watch...</div><div id="pattern-buttons" style="margin: 20px;"></div></div>';
                 default:
-                    return '<div style="padding: 40px; text-align: center;"><p>Complete this mission in your notebook or with a grown-up!</p><button class="btn btn-green" onclick="completeMission()">I Did It! ✓</button></div>';
+                    return '<div style="padding: 40px; text-align: center;"><p>Complete this mission with a grown-up!</p><button class="btn btn-green" onclick="completeMission()">I Did It! ✓</button></div>';
             }
         }
 
-        // Game Logic Functions
+        // Game Variables
         let starsCollected = 0;
         let memoryMatches = 0;
         let flippedCards = [];
@@ -1601,10 +1480,10 @@
 
         function initGame(type, gameType) {
             if (gameType === 'spotlight') initSpotlight();
-            if (gameType === 'matching') initMemory();
-            if (gameType === 'sequence' || gameType === 'sort') initSortable(type);
-            if (gameType === 'puzzle') initPuzzle();
-            if (gameType === 'pattern') initPattern();
+            else if (gameType === 'matching') initMemory();
+            else if (gameType === 'sequence' || gameType === 'sort') initSortable(type);
+            else if (gameType === 'puzzle') initPuzzle();
+            else if (gameType === 'pattern') initPattern();
         }
 
         function initSpotlight() {
@@ -1626,10 +1505,11 @@
                     starsCollected++;
                     star.remove();
                     spawnDistraction();
-                    setTimeout(spawnStar, 500);
+                    if (starsCollected < 10) setTimeout(spawnStar, 600);
+                    else completeMission();
                 };
                 area.appendChild(star);
-                setTimeout(() => star.remove(), 2000);
+                setTimeout(() => { if(star.parentNode) star.remove(); }, 2000);
             }
             
             function spawnDistraction() {
@@ -1640,7 +1520,7 @@
                 dist.style.left = Math.random() * 80 + 10 + '%';
                 dist.style.top = Math.random() * 80 + 10 + '%';
                 area.appendChild(dist);
-                setTimeout(() => dist.remove(), 3000);
+                setTimeout(() => { if(dist.parentNode) dist.remove(); }, 3000);
             }
             
             spawnStar();
@@ -1651,19 +1531,19 @@
             flippedCards = [];
             canFlip = true;
             const grid = document.getElementById('memory-game');
-            const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐶', '🐱', '🐭', '🐹', '🐰', '🦊'];
+            const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊'];
+            const pairs = [...emojis, ...emojis];
             
-            for (let i = emojis.length - 1; i > 0; i--) {
+            for (let i = pairs.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [emojis[i], emojis[j]] = [emojis[j], emojis[i]];
+                [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
             }
             
             grid.innerHTML = '';
-            emojis.forEach((emoji, index) => {
+            pairs.forEach((emoji, index) => {
                 const card = document.createElement('div');
                 card.className = 'memory-card';
                 card.dataset.emoji = emoji;
-                card.dataset.index = index;
                 card.textContent = '?';
                 card.onclick = () => flipCard(card, emoji);
                 grid.appendChild(card);
@@ -1679,7 +1559,7 @@
             
             if (flippedCards.length === 2) {
                 canFlip = false;
-                setTimeout(checkMatch, 1000);
+                setTimeout(checkMatch, 800);
             }
         }
 
@@ -1712,7 +1592,7 @@
                     {text: 'Find the key', correct: 1},
                     {text: 'Open the chest', correct: 2}
                 ];
-            } else if (type === 'sort') {
+            } else {
                 items = [
                     {text: 'Wake up', correct: 1},
                     {text: 'Eat breakfast', correct: 2},
@@ -1721,7 +1601,7 @@
                 ];
             }
             
-            currentOrder = items.map((item, idx) => ({...item, current: idx}));
+            currentOrder = items.map(item => ({...item}));
             currentOrder.sort(() => Math.random() - 0.5);
             renderSortable();
         }
@@ -1735,25 +1615,18 @@
                 li.innerHTML = `
                     <span class="task-number">${idx + 1}</span>
                     <span>${item.text}</span>
-                    <button onclick="moveUp(${idx})" style="margin-left: auto; background: none; border: none; font-size: 1.2em; cursor: pointer;">⬆️</button>
-                    <button onclick="moveDown(${idx})" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">⬇️</button>
+                    <button onclick="moveItem(${idx}, -1)" style="margin-left: auto; background: none; border: none; font-size: 1.2em; cursor: pointer;">⬆️</button>
+                    <button onclick="moveItem(${idx}, 1)" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">⬇️</button>
                 `;
                 list.appendChild(li);
             });
         }
 
-        function moveUp(index) {
-            if (index > 0) {
-                [currentOrder[index], currentOrder[index-1]] = [currentOrder[index-1], currentOrder[index]];
-                renderSortable();
-            }
-        }
-
-        function moveDown(index) {
-            if (index < currentOrder.length - 1) {
-                [currentOrder[index], currentOrder[index+1]] = [currentOrder[index+1], currentOrder[index]];
-                renderSortable();
-            }
+        function moveItem(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= currentOrder.length) return;
+            [currentOrder[index], currentOrder[newIndex]] = [currentOrder[newIndex], currentOrder[index]];
+            renderSortable();
         }
 
         function checkOrder() {
@@ -1767,12 +1640,7 @@
         }
 
         function initPuzzle() {
-            puzzleGrid = [[1,2],[3,4]];
-            for (let i = 0; i < 4; i++) {
-                const row = Math.floor(i / 2);
-                const col = i % 2;
-                puzzleGrid[row][col] = Math.floor(Math.random() * 4) + 1;
-            }
+            puzzleGrid = [[1,2],[2,1]];
             renderPuzzle();
         }
 
@@ -1780,24 +1648,14 @@
             const container = document.getElementById('sudoku-grid');
             container.innerHTML = '';
             container.style.display = 'grid';
-            container.style.gridTemplateColumns = 'repeat(2, 60px)';
+            container.style.gridTemplateColumns = 'repeat(2, 70px)';
             container.style.gap = '10px';
             container.style.justifyContent = 'center';
-            container.style.margin = '20px';
             
             for (let row = 0; row < 2; row++) {
                 for (let col = 0; col < 2; col++) {
                     const cell = document.createElement('div');
-                    cell.style.width = '60px';
-                    cell.style.height = '60px';
-                    cell.style.border = '3px solid var(--challenge-orange)';
-                    cell.style.borderRadius = '10px';
-                    cell.style.display = 'flex';
-                    cell.style.alignItems = 'center';
-                    cell.style.justifyContent = 'center';
-                    cell.style.fontSize = '1.5em';
-                    cell.style.cursor = 'pointer';
-                    cell.style.background = 'white';
+                    cell.style.cssText = 'width:70px;height:70px;border:3px solid var(--challenge-orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5em;cursor:pointer;background:white;';
                     cell.textContent = puzzleGrid[row][col];
                     cell.onclick = () => {
                         puzzleGrid[row][col] = (puzzleGrid[row][col] % 4) + 1;
@@ -1829,20 +1687,22 @@
             const display = document.getElementById('pattern-display');
             const btnContainer = document.getElementById('pattern-buttons');
             
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 3; i++) {
                 patternSequence.push(Math.floor(Math.random() * 4));
             }
             
             let i = 0;
             display.textContent = 'Watch...';
+            
             const interval = setInterval(() => {
                 if (i >= patternSequence.length) {
                     clearInterval(interval);
-                    display.textContent = 'Your turn!';
+                    display.textContent = 'Your turn! Repeat the pattern';
                     showPatternButtons();
                     return;
                 }
                 display.textContent = buttons[patternSequence[i]];
+                setTimeout(() => display.textContent = '', 400);
                 i++;
             }, 800);
             
@@ -1851,23 +1711,20 @@
                 buttons.forEach((btn, idx) => {
                     const button = document.createElement('button');
                     button.textContent = btn;
-                    button.style.fontSize = '2em';
-                    button.style.margin = '10px';
-                    button.style.padding = '15px';
-                    button.style.border = 'none';
-                    button.style.borderRadius = '10px';
-                    button.style.cursor = 'pointer';
+                    button.style.cssText = 'font-size:2em;margin:10px;padding:15px;border:none;border-radius:10px;cursor:pointer;';
                     button.onclick = () => {
                         playerPattern.push(idx);
                         if (playerPattern[playerPattern.length - 1] !== patternSequence[playerPattern.length - 1]) {
-                            alert('Oops! Listen again...');
+                            alert('Oops! That was not quite right. Try again!');
                             playerPattern = [];
                             initPattern();
                             return;
                         }
                         if (playerPattern.length === patternSequence.length) {
-                            alert('Perfect focus! You remembered the pattern! 🎉');
-                            completeMission();
+                            setTimeout(() => {
+                                alert('Perfect focus! You remembered the pattern! 🎉');
+                                completeMission();
+                            }, 300);
                         }
                     };
                     btnContainer.appendChild(button);
@@ -1884,10 +1741,10 @@
                     <h3>🤔 Brain Reflection Time</h3>
                     <p style="margin-bottom: 15px;"><strong>${mission.reflection}</strong></p>
                     <div class="reflection-options">
-                        <button class="reflection-btn" onclick="finishReflection('A')">I noticed my attention wandering, then I brought it back!</button>
-                        <button class="reflection-btn" onclick="finishReflection('B')">I felt frustrated but kept trying!</button>
-                        <button class="reflection-btn" onclick="finishReflection('C')">I made a picture in my head to help me!</button>
-                        <button class="reflection-btn" onclick="finishReflection('D')">I broke it into smaller steps!</button>
+                        <button class="reflection-btn" onclick="finishReflection('noticed')">I noticed my attention wandering, then I brought it back!</button>
+                        <button class="reflection-btn" onclick="finishReflection('kept')">I felt frustrated but kept trying!</button>
+                        <button class="reflection-btn" onclick="finishReflection('picture')">I made a picture in my head to help me!</button>
+                        <button class="reflection-btn" onclick="finishReflection('steps')">I broke it into smaller steps!</button>
                     </div>
                 </div>
             `;
@@ -1900,13 +1757,11 @@
             gameState.stats[type] = Math.min(10, gameState.stats[type] + 2);
             gameState.crystals += 2;
             
-            // Record session
             gameState.sessions.unshift({
                 date: new Date().toISOString().split('T')[0],
                 island: type,
                 mission: missions[type][gameState.missionsCompleted[type]-1].title,
-                duration: 15,
-                reflection: 'Completed with reflection ' + answer
+                reflection: answer
             });
             
             if (gameState.missionsCompleted[type] === 3 && !gameState.badges.includes(type)) {
@@ -1935,7 +1790,7 @@
                 <p>You earned 2 Power Crystals! 💎💎</p>
             `;
             
-            document.querySelectorAll('.badge').forEach(badge => {
+            document.querySelectorAll('#badges-display .badge').forEach(badge => {
                 badge.classList.remove('earned');
             });
             
@@ -1944,8 +1799,8 @@
                 if (el) el.classList.add('earned');
             });
             
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => createConfetti(), i * 100);
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createConfetti, i * 50);
             }
             
             showScreen('screen-reward');
@@ -1955,7 +1810,7 @@
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.background = ['#FFD93D', '#4ECDC4', '#F38181', '#AA96DA'][Math.floor(Math.random() * 4)];
+            confetti.style.background = ['#FFD93D', '#4ECDC4', '#F38181', '#AA96DA', '#2A9D8F'][Math.floor(Math.random() * 5)];
             document.body.appendChild(confetti);
             setTimeout(() => confetti.remove(), 3000);
         }
@@ -1978,7 +1833,7 @@
             container.innerHTML = badgeData.map(badge => `
                 <div style="display: flex; align-items: center; gap: 20px; background: ${gameState.badges.includes(badge.id) ? 'linear-gradient(135deg, #fff9e6, #fff)' : '#f5f5f5'}; 
                             padding: 20px; border-radius: 15px; width: 100%; max-width: 400px;
-                            border: 3px solid ${gameState.badges.includes(badge.id) ? 'var(--gold)' : '#ddd'};">
+                            border: 3px solid ${gameState.badges.includes(badge.id) ? 'var(--gold)' : '#ddd'}; margin-bottom: 10px;">
                     <div style="font-size: 3em; opacity: ${gameState.badges.includes(badge.id) ? 1 : 0.3};">${badge.icon}</div>
                     <div style="text-align: left;">
                         <div style="font-family: 'Fredoka One', cursive; font-size: 1.3em; color: ${gameState.badges.includes(badge.id) ? 'var(--dark)' : '#999'};">
@@ -2029,11 +1884,11 @@
                        document.getElementById('pin3').value + 
                        document.getElementById('pin4').value;
             
-            if (pin === '1234') { // Change this to your preferred PIN
-                showScreen('screen-parent');
+            if (pin === '1234') {
                 for(let i=1; i<=4; i++) document.getElementById(`pin${i}`).value = '';
+                showScreen('screen-parent');
             } else {
-                alert('Incorrect PIN. Hint: Try 1234');
+                alert('Incorrect PIN. Try 1234');
             }
         }
 
@@ -2050,8 +1905,9 @@
                 const score = gameState.stats[skill];
                 const percent = (score / maxScore) * 100;
                 document.getElementById(`parent-score-${skill}`).textContent = `${score}/${maxScore}`;
-                document.getElementById(`parent-bar-${skill}`).style.width = percent + '%';
-                document.getElementById(`parent-bar-${skill}`).textContent = Math.round(percent) + '%';
+                const bar = document.getElementById(`parent-bar-${skill}`);
+                bar.style.width = percent + '%';
+                bar.textContent = percent > 15 ? Math.round(percent) + '%' : '';
             }
 
             const chartBars = document.querySelectorAll('#skill-chart .chart-bar');
@@ -2197,9 +2053,10 @@
                 `${weakest[0].charAt(0).toUpperCase() + weakest[0].slice(1)} needs practice` : 'All skills developing';
             
             let rec = 'Try any island to begin!';
+            const total = Object.values(gameState.missionsCompleted).reduce((a,b)=>a+b,0);
             if (weakest[1] < 4 && weakest[1] > 0) {
                 rec = `Focus on ${weakest[0]} activities this week.`;
-            } else if (Object.values(gameState.missionsCompleted).reduce((a,b)=>a+b,0) > 6) {
+            } else if (total > 6) {
                 rec = 'Great progress! Encourage teaching these skills to a sibling.';
             }
             document.getElementById('recommendation').textContent = rec;
@@ -2237,6 +2094,11 @@
 
         // Initialize
         window.onload = () => {
-            loadGame();
-            if (!gameState.name) {
- ‌‍
+            const hasSaved = loadGame();
+            if (!hasSaved) {
+                showScreen('screen-about');
+            }
+        };
+    </script>
+</body>
+</html>
