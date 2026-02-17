@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Explorer Academy - Parent Dashboard</title>
+    <title>Brain Explorer Academy</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
         
@@ -144,10 +144,500 @@
             box-shadow: 0 4px 15px rgba(42, 157, 143, 0.4);
         }
         
-        /* Parent Dashboard Specific */
+        /* Kids Game Styles */
+        .avatar-selection {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .avatar-option {
+            font-size: 3em;
+            padding: 20px;
+            border: 4px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--light);
+            text-align: center;
+        }
+        
+        .avatar-option:hover {
+            transform: scale(1.1);
+            border-color: var(--gold);
+        }
+        
+        .avatar-option.selected {
+            border-color: var(--gold);
+            background: #fff9e6;
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+        }
+        
+        .name-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+        }
+        
+        .name-input:focus {
+            outline: none;
+            border-color: var(--focus-blue);
+        }
+        
+        .explorer-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .explorer-avatar {
+            font-size: 4em;
+            background: white;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .explorer-info h2 {
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .level-badge {
+            background: var(--gold);
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .stat {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+        
+        .stat-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .stat-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .islands-map {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .island {
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .island::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .island:hover::before {
+            opacity: 1;
+        }
+        
+        .island:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .island-locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+        
+        .island-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .island h3 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        
+        .island-progress {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .island-progress-bar {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .focus-island { background: linear-gradient(135deg, var(--focus-blue), #3dbdb4); color: white; }
+        .memory-island { background: linear-gradient(135deg, var(--memory-green), #7bc4b5); color: var(--dark); }
+        .challenge-island { background: linear-gradient(135deg, var(--challenge-orange), #e85a5a); color: white; }
+        .plan-island { background: linear-gradient(135deg, var(--plan-purple), #8b7bc7); color: white; }
+        
+        .mission-container {
+            text-align: center;
+        }
+        
+        .mission-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border-left: 8px solid;
+        }
+        
+        .mission-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8em;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .mission-desc {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .mission-task {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .timer {
+            font-size: 2em;
+            font-family: 'Fredoka One', cursive;
+            color: var(--challenge-orange);
+            margin: 20px 0;
+        }
+        
+        .game-area {
+            min-height: 200px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--focus-blue), #3dbdb4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .memory-card.flipped {
+            background: white;
+            border: 3px solid var(--focus-blue);
+        }
+        
+        .memory-card.matched {
+            background: var(--memory-green);
+            animation: pulse 0.5s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .spotlight-area {
+            position: relative;
+            height: 300px;
+            background: #2C3E50;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: twinkle 2s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .distraction {
+            position: absolute;
+            font-size: 1.5em;
+            opacity: 0.7;
+            animation: float-around 4s infinite linear;
+        }
+        
+        @keyframes float-around {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -30px) rotate(90deg); }
+            50% { transform: translate(0, -60px) rotate(180deg); }
+            75% { transform: translate(-50px, -30px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        .puzzle-piece {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: var(--challenge-orange);
+            margin: 5px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+            cursor: move;
+            transition: all 0.3s;
+        }
+        
+        .puzzle-piece:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .puzzle-slot {
+            width: 60px;
+            height: 60px;
+            border: 3px dashed #ccc;
+            margin: 5px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: top;
+        }
+        
+        .puzzle-slot.filled {
+            border-color: var(--memory-green);
+            background: rgba(149, 225, 211, 0.3);
+        }
+        
+        .task-list {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .task-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 5px solid var(--plan-purple);
+            cursor: move;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .task-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .task-number {
+            background: var(--plan-purple);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .reflection {
+            background: #fff9e6;
+            border: 3px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .reflection h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .reflection-options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .reflection-btn {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+        }
+        
+        .reflection-btn:hover {
+            border-color: var(--gold);
+            background: #fffef5;
+        }
+        
+        .reflection-btn.selected {
+            border-color: var(--gold);
+            background: var(--gold);
+            color: var(--dark);
+        }
+        
+        .crystal {
+            display: inline-block;
+            font-size: 2em;
+            animation: sparkle 2s infinite;
+            margin: 0 5px;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+        
+        .reward-screen {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .reward-screen h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.5em;
+            color: var(--gold);
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 4px solid #ddd;
+            opacity: 0.5;
+            transition: all 0.5s;
+        }
+        
+        .badge.earned {
+            opacity: 1;
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+            animation: badgePop 0.6s ease;
+        }
+        
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        /* Parent Dashboard Styles */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
         
@@ -165,7 +655,7 @@
         
         .stat-number {
             font-family: 'Fredoka One', cursive;
-            font-size: 3em;
+            font-size: 2.5em;
             color: var(--dark);
             margin: 10px 0;
         }
@@ -175,7 +665,6 @@
             font-weight: 600;
         }
         
-        /* Progress Bars */
         .skill-bar {
             margin: 15px 0;
         }
@@ -212,7 +701,6 @@
         .fill-challenge { background: linear-gradient(90deg, var(--challenge-orange), #e85a5a); }
         .fill-plan { background: linear-gradient(90deg, var(--plan-purple), #8b7bc7); }
         
-        /* Activity Timeline */
         .timeline {
             position: relative;
             padding-left: 30px;
@@ -271,7 +759,6 @@
             margin-bottom: 5px;
         }
         
-        /* Tips Section */
         .tip-card {
             background: linear-gradient(135deg, #fff9e6 0%, #fff5d6 100%);
             border: 2px solid var(--gold);
@@ -314,7 +801,6 @@
             font-style: italic;
         }
         
-        /* Insights */
         .insight-box {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             border-left: 5px solid #2196F3;
@@ -329,7 +815,6 @@
             margin-bottom: 5px;
         }
         
-        /* Comparison Chart */
         .comparison-chart {
             display: flex;
             height: 200px;
@@ -374,7 +859,6 @@
             white-space: nowrap;
         }
         
-        /* Toggle Switch */
         .toggle-container {
             display: flex;
             align-items: center;
@@ -412,7 +896,6 @@
             transform: translateX(30px);
         }
         
-        /* Password Protection */
         .parent-gate {
             text-align: center;
             padding: 40px;
@@ -445,21 +928,34 @@
             border-color: var(--parent-teal);
         }
         
+        .nav-bar {
+            background: white;
+            padding: 15px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .game-header h1 { font-size: 2em; }
-            .dashboard-grid { grid-template-columns: 1fr; }
+            .islands-map { grid-template-columns: 1fr; }
+            .avatar-selection { grid-template-columns: repeat(2, 1fr); }
+            .memory-grid { grid-template-columns: repeat(3, 1fr); }
             .comparison-chart { height: 150px; }
             .chart-bar { width: 40px; }
+            .explorer-card { flex-direction: column; text-align: center; }
         }
         
-        /* Utility */
         .text-center { text-align: center; }
         .mt-20 { margin-top: 20px; }
         .mb-20 { margin-bottom: 20px; }
         .hidden { display: none !important; }
         
-        /* Confetti */
         .confetti {
             position: fixed;
             width: 10px;
@@ -475,9 +971,8 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
         
-        /* Print Styles */
         @media print {
-            .btn, .toggle-container { display: none; }
+            .btn, .toggle-container, .nav-bar { display: none; }
             .card { break-inside: avoid; }
         }
     </style>
@@ -487,14 +982,187 @@
         <!-- Header -->
         <div class="game-header">
             <h1>🧠 Brain Explorer Academy</h1>
-            <p class="subtitle">Parent Dashboard & Progress Tracker</p>
+            <p class="subtitle">Learn How to Learn • Ages 5-7</p>
         </div>
 
-        <!-- Navigation -->
-        <div class="card" style="padding: 15px; text-align: center;">
-            <button class="btn" onclick="showScreen('screen-kids')">👦 Kids Mode</button>
+        <!-- Navigation Bar -->
+        <div class="nav-bar" id="main-nav">
+            <button class="btn" onclick="showScreen('screen-create')">🎮 Play Game</button>
             <button class="btn btn-parent" onclick="showParentGate()">👨‍👩‍👧 Parent Dashboard</button>
-            <button class="btn btn-purple" onclick="exportData()">📊 Export Report</button>
+            <button class="btn btn-purple" onclick="showScreen('screen-about')">ℹ️ About</button>
+        </div>
+
+        <!-- Screen: About -->
+        <div id="screen-about" class="screen">
+            <div class="card">
+                <h2>🌟 Welcome to Brain Explorer Academy!</h2>
+                <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin-bottom: 20px;">
+                    This free game teaches children <strong>how to learn</strong> through four exciting islands:
+                </p>
+                <ul style="font-size: 1.1em; line-height: 2; color: #555; margin-left: 20px; margin-bottom: 20px;">
+                    <li><strong>🔦 Focus Falls</strong> - Attention and concentration skills</li>
+                    <li><strong>🌱 Memory Meadows</strong> - Remembering strategies</li>
+                    <li><strong>🧗 Challenge Canyon</strong> - Growth mindset and resilience</li>
+                    <li><strong>🗺️ Plan Peak</strong> - Organization and planning</li>
+                </ul>
+                <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin-bottom: 20px;">
+                    Each island has 3 interactive missions with built-in reflection questions to build 
+                    <strong>metacognition</strong> (thinking about thinking).
+                </p>
+                <div class="text-center mt-20">
+                    <button class="btn" style="font-size: 1.2em; padding: 15px 40px;" onclick="showScreen('screen-create')">
+                        Start Your Adventure! 🚀
+                    </button>
+                </div>
+                <p class="text-center mt-20" style="color: #888; font-size: 0.9em;">
+                    💾 Your progress saves automatically in this browser.<br>
+                    👨‍👩‍👧 Parents: Click "Parent Dashboard" to track learning progress.
+                </p>
+            </div>
+        </div>
+
+        <!-- Screen: Character Creation -->
+        <div id="screen-create" class="screen">
+            <div class="card">
+                <h2 class="text-center">Create Your Explorer</h2>
+                
+                <div class="avatar-selection">
+                    <div class="avatar-option" data-avatar="🦁">🦁</div>
+                    <div class="avatar-option" data-avatar="🚀">🚀</div>
+                    <div class="avatar-option" data-avatar="🌟">🌟</div>
+                    <div class="avatar-option" data-avatar="🦸">🦸</div>
+                    <div class="avatar-option" data-avatar="🦄">🦄</div>
+                    <div class="avatar-option" data-avatar="🤖">🤖</div>
+                    <div class="avatar-option" data-avatar="🌈">🌈</div>
+                    <div class="avatar-option" data-avatar="⚡">⚡</div>
+                </div>
+                
+                <input type="text" id="explorer-name" class="name-input" placeholder="Enter your explorer name..." maxlength="20">
+                
+                <div class="text-center">
+                    <button class="btn" onclick="createExplorer()">Start Adventure! 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen: Kids Dashboard -->
+        <div id="screen-dashboard" class="screen">
+            <div class="explorer-card">
+                <div class="explorer-avatar" id="dash-avatar">🦁</div>
+                <div class="explorer-info">
+                    <h2 id="dash-name">Explorer</h2>
+                    <span class="level-badge" id="dash-level">Level 1 Trainee</span>
+                    <div class="stats">
+                        <div class="stat">
+                            ⚡ Focus: <span id="stat-focus">0</span>/10
+                            <div class="stat-bar"><div class="stat-fill fill-focus" id="bar-focus" style="width: 0%"></div></div>
+                        </div>
+                        <div class="stat">
+                            🌱 Memory: <span id="stat-memory">0</span>/10
+                            <div class="stat-bar"><div class="stat-fill fill-memory" id="bar-memory" style="width: 0%"></div></div>
+                        </div>
+                        <div class="stat">
+                            💪 Challenge: <span id="stat-challenge">0</span>/10
+                            <div class="stat-bar"><div class="stat-fill fill-challenge" id="bar-challenge" style="width: 0%"></div></div>
+                        </div>
+                        <div class="stat">
+                            🗺️ Plan: <span id="stat-plan">0</span>/10
+                            <div class="stat-bar"><div class="stat-fill fill-plan" id="bar-plan" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="text-align: center; color: var(--dark); margin-bottom: 15px;">Choose Your Training Island:</h3>
+            
+            <div class="islands-map">
+                <div class="island focus-island" onclick="startMission('focus')">
+                    <div class="island-icon">🔦</div>
+                    <h3>Focus Falls</h3>
+                    <p>Train your attention power!</p>
+                    <div class="island-progress">
+                        <div class="island-progress-bar" id="prog-focus" style="width: 0%"></div>
+                    </div>
+                    <p style="font-size: 0.9em; margin-top: 5px;"><span id="count-focus">0</span>/3 Missions</p>
+                </div>
+                
+                <div class="island memory-island" onclick="startMission('memory')">
+                    <div class="island-icon">🌱</div>
+                    <h3>Memory Meadows</h3>
+                    <p>Grow your memory garden!</p>
+                    <div class="island-progress">
+                        <div class="island-progress-bar" id="prog-memory" style="width: 0%"></div>
+                    </div>
+                    <p style="font-size: 0.9em; margin-top: 5px;"><span id="count-memory">0</span>/3 Missions</p>
+                </div>
+                
+                <div class="island challenge-island" onclick="startMission('challenge')">
+                    <div class="island-icon">🧗</div>
+                    <h3>Challenge Canyon</h3>
+                    <p>Climb the learning pit!</p>
+                    <div class="island-progress">
+                        <div class="island-progress-bar" id="prog-challenge" style="width: 0%"></div>
+                    </div>
+                    <p style="font-size: 0.9em; margin-top: 5px;"><span id="count-challenge">0</span>/3 Missions</p>
+                </div>
+                
+                <div class="island plan-island" onclick="startMission('plan')">
+                    <div class="island-icon">🗺️</div>
+                    <h3>Plan Peak</h3>
+                    <p>Map your adventures!</p>
+                    <div class="island-progress">
+                        <div class="island-progress-bar" id="prog-plan" style="width: 0%"></div>
+                    </div>
+                    <p style="font-size: 0.9em; margin-top: 5px;"><span id="count-plan">0</span>/3 Missions</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20">
+                <div id="total-crystals" style="font-size: 1.2em; margin-bottom: 15px;">
+                    Total Power Crystals: <span class="crystal">💎</span> <span id="crystal-count">0</span>
+                </div>
+                <button class="btn btn-purple" onclick="viewBadges()">View My Badges 🏆</button>
+                <button class="btn btn-orange" onclick="resetGame()">New Explorer 🔄</button>
+            </div>
+        </div>
+
+        <!-- Screen: Mission -->
+        <div id="screen-mission" class="screen">
+            <div class="mission-container">
+                <div id="mission-content">
+                    <!-- Dynamic mission content loads here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen: Reward -->
+        <div id="screen-reward" class="screen">
+            <div class="card reward-screen">
+                <h2>Mission Complete! 🎉</h2>
+                <div id="reward-message"></div>
+                <div class="badges-container" id="badges-display">
+                    <div class="badge" id="badge-focus" title="Focus Master">🔦</div>
+                    <div class="badge" id="badge-memory" title="Memory Gardener">🌱</div>
+                    <div class="badge" id="badge-challenge" title="Puzzle Solver">🧗</div>
+                    <div class="badge" id="badge-plan" title="Map Maker">🗺️</div>
+                    <div class="badge" id="badge-master" title="Brain Master">🧠</div>
+                </div>
+                <div id="crystals-earned" class="mt-20" style="font-size: 1.5em;"></div>
+                <button class="btn mt-20" onclick="returnToDashboard()">Back to Academy 🏠</button>
+            </div>
+        </div>
+
+        <!-- Screen: Badge Collection -->
+        <div id="screen-badges" class="screen">
+            <div class="card">
+                <h2 class="text-center">Your Badge Collection</h2>
+                <div class="badges-container" id="full-badge-collection" style="flex-direction: column; align-items: center;">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="text-center mt-20">
+                    <button class="btn" onclick="returnToDashboard()">Back to Academy 🏠</button>
+                </div>
+            </div>
         </div>
 
         <!-- Screen: Parent Gate -->
@@ -508,77 +1176,75 @@
                     <input type="password" class="pin-digit" maxlength="1" id="pin3" onkeyup="movePin(3)">
                     <input type="password" class="pin-digit" maxlength="1" id="pin4" onkeyup="checkPin()">
                 </div>
-                <p style="color: #888; font-size: 0.9em;">Hint: The year you were born (4 digits)</p>
+                <p style="color: #888; font-size: 0.9em;">Default: 1234 (change in code)</p>
                 <button class="btn btn-parent mt-20" onclick="checkPin()">Unlock 🔓</button>
+                <button class="btn mt-20" onclick="showScreen('screen-about')">Back to Game 🔙</button>
             </div>
         </div>
 
         <!-- Screen: Parent Dashboard -->
         <div id="screen-parent" class="screen">
-            <!-- Overview Stats -->
             <div class="card">
                 <h2>📈 Learning Overview</h2>
                 <div class="dashboard-grid">
                     <div class="stat-card">
                         <div class="stat-label">Total Play Time</div>
-                        <div class="stat-number" id="total-time">0m</div>
-                        <div style="font-size: 0.9em; color: #666;">This week</div>
+                        <div class="stat-number" id="parent-total-time">0m</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Missions Completed</div>
-                        <div class="stat-number" id="total-missions">0</div>
+                        <div class="stat-number" id="parent-total-missions">0</div>
                         <div style="font-size: 0.9em; color: #666;">Out of 12</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Current Level</div>
-                        <div class="stat-number" id="current-level">1</div>
-                        <div style="font-size: 0.9em; color: #666;" id="level-title">Trainee</div>
+                        <div class="stat-number" id="parent-level">1</div>
+                        <div style="font-size: 0.9em; color: #666;" id="parent-title">Trainee</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Brain Power</div>
-                        <div class="stat-number" id="total-power">0</div>
-                        <div style="font-size: 0.9em; color: #666;">Total crystals</div>
+                        <div class="stat-number" id="parent-crystals">0</div>
+                        <div style="font-size: 0.9em; color: #666;">Crystals earned</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Skill Breakdown -->
             <div class="card">
                 <h2>🎯 Skill Development</h2>
                 <div class="skill-bar">
                     <div class="skill-header">
                         <span>⚡ Focus & Attention</span>
-                        <span id="score-focus">0/10</span>
+                        <span id="parent-score-focus">0/10</span>
                     </div>
                     <div class="progress-bg">
-                        <div class="progress-fill fill-focus" id="bar-focus" style="width: 0%">0%</div>
+                        <div class="progress-fill fill-focus" id="parent-bar-focus" style="width: 0%">0%</div>
                     </div>
                 </div>
                 <div class="skill-bar">
                     <div class="skill-header">
                         <span>🌱 Memory & Retention</span>
-                        <span id="score-memory">0/10</span>
+                        <span id="parent-score-memory">0/10</span>
                     </div>
                     <div class="progress-bg">
-                        <div class="progress-fill fill-memory" id="bar-memory" style="width: 0%">0%</div>
+                        <div class="progress-fill fill-memory" id="parent-bar-memory" style="width: 0%">0%</div>
                     </div>
                 </div>
                 <div class="skill-bar">
                     <div class="skill-header">
                         <span>💪 Challenge & Resilience</span>
-                        <span id="score-challenge">0/10</span>
+                        <span id="parent-score-challenge">0/10</span>
                     </div>
                     <div class="progress-bg">
-                        <div class="progress-fill fill-challenge" id="bar-challenge" style="width: 0%">0%</div>
+                        <div class="progress-fill fill-challenge" id="parent-bar-challenge" style="width: 0%">0%</div>
                     </div>
                 </div>
                 <div class="skill-bar">
                     <div class="skill-header">
                         <span>🗺️ Planning & Organization</span>
-                        <span id="score-plan">0/10</span>
+                        <span id="parent-score-plan">0/10</span>
                     </div>
                     <div class="progress-bg">
-                        <div class="progress-fill fill-plan" id="bar-plan" style="width: 0%">0%</div>
+                        <div class="progress-fill fill-plan" id="parent-bar-plan" style="width: 0%">0%</div>
                     </div>
                 </div>
                 
@@ -598,23 +1264,19 @@
                 </div>
             </div>
 
-            <!-- Insights -->
             <div class="card">
                 <h2>🔍 Smart Insights</h2>
                 <div id="insights-container">
                     <div class="insight-box">
-                        <strong>🌟 Keep Exploring!</strong>
-                        Your child hasn't started their adventure yet. Encourage them to try their first mission!
+                        <strong>🌟 Ready to Start!</strong>
+                        Your child hasn't begun their adventure yet. Encourage them to try their first mission!
                     </div>
                 </div>
             </div>
 
-            <!-- Personalized Tips -->
             <div class="card">
                 <h2>💡 Personalized Parent Tips</h2>
-                <div id="tips-container">
-                    <!-- Dynamically populated -->
-                </div>
+                <div id="tips-container"></div>
                 
                 <div class="toggle-container">
                     <span>Show offline activity ideas</span>
@@ -650,18 +1312,14 @@
                 </div>
             </div>
 
-            <!-- Activity Timeline -->
             <div class="card">
                 <h2>📅 Recent Activity</h2>
-                <div class="timeline" id="activity-timeline">
-                    <!-- Dynamically populated -->
-                </div>
+                <div class="timeline" id="activity-timeline"></div>
                 <div id="no-activity" class="text-center" style="color: #888; padding: 20px;">
-                    No activities recorded yet. Start playing to see history!
+                    No activities recorded yet.
                 </div>
             </div>
 
-            <!-- Weekly Report -->
             <div class="card">
                 <h2>📋 Weekly Summary</h2>
                 <div id="weekly-report">
@@ -669,54 +1327,184 @@
                     <p><strong>Growth Areas:</strong> <span id="growth-areas">Not enough data yet</span></p>
                     <p><strong>Recommended Focus:</strong> <span id="recommendation">Try any island to begin!</span></p>
                 </div>
-                <button class="btn btn-green mt-20" onclick="generateReport()">Generate Full Report 📄</button>
-            </div>
-        </div>
-
-        <!-- Screen: Kids Mode (Placeholder for main game) -->
-        <div id="screen-kids" class="screen active">
-            <div class="card text-center">
-                <h2>👦 Kids Adventure Mode</h2>
-                <p style="margin: 20px 0; color: #666;">Click below to start your Brain Explorer adventure!</p>
-                <button class="btn" style="font-size: 1.3em; padding: 20px 40px;" onclick="alert('In the full version, this would launch the kids game interface!')">Start Playing! 🚀</button>
-                <p style="margin-top: 20px; color: #888; font-size: 0.9em;">This is the parent dashboard demo.<br>In the full version, this button opens the complete game.</p>
+                <div class="text-center mt-20">
+                    <button class="btn btn-green" onclick="exportData()">Export Data 📊</button>
+                    <button class="btn" onclick="showScreen('screen-about')">Back to Game 🔙</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Demo Data - In real version, this would load from localStorage
-        let gameData = {
-            name: 'Alex',
+        // Game State
+        let gameState = {
+            name: '',
             avatar: '🦁',
-            level: 2,
-            title: 'Ranger',
+            level: 1,
+            title: 'Trainee',
             stats: {
-                focus: 6,
-                memory: 4,
-                challenge: 8,
-                plan: 3
+                focus: 0,
+                memory: 0,
+                challenge: 0,
+                plan: 0
             },
             missionsCompleted: {
-                focus: 2,
-                memory: 1,
-                challenge: 3,
-                plan: 1
+                focus: 0,
+                memory: 0,
+                challenge: 0,
+                plan: 0
             },
-            crystals: 18,
-            playTime: 145, // minutes
-            sessions: [
-                { date: '2026-02-17', island: 'challenge', mission: 'The Learning Pit', duration: 15, reflection: 'Kept trying different strategies' },
-                { date: '2026-02-17', island: 'focus', mission: 'The Laser Bridge', duration: 12, reflection: 'Noticed distraction and returned to task' },
-                { date: '2026-02-16', island: 'challenge', mission: 'Yet Tower', duration: 18, reflection: 'Used the word YET when tower fell' },
-                { date: '2026-02-16', island: 'memory', mission: 'Seed Planting', duration: 14, reflection: 'Made pictures in head to remember' },
-                { date: '2026-02-15', island: 'plan', mission: 'Treasure Hunt Map', duration: 16, reflection: 'Understood sequence importance' },
-                { date: '2026-02-15', island: 'focus', mission: 'Sound Hunter', duration: 11, reflection: 'Repeated pattern quietly' },
-                { date: '2026-02-14', island: 'challenge', mission: 'Mistake Museum', duration: 20, reflection: 'Drew a mistake and what was learned' }
+            crystals: 0,
+            playTime: 0,
+            sessions: [],
+            currentMission: null
+        };
+
+        // Mission Data
+        const missions = {
+            focus: [
+                {
+                    title: "The Laser Bridge",
+                    desc: "Keep your spotlight steady while crossing the bridge!",
+                    task: "Click the stars to collect them. Don't get distracted by the floating shapes!",
+                    type: "spotlight",
+                    time: 30,
+                    reflection: "What happened when you got distracted? How did you bring your attention back?"
+                },
+                {
+                    title: "Sound Hunter",
+                    desc: "Train your ears to focus on important sounds.",
+                    task: "Watch the pattern of sounds, then repeat it by clicking the buttons in order.",
+                    type: "pattern",
+                    time: 45,
+                    reflection: "Did you say the pattern quietly in your head to remember it?"
+                },
+                {
+                    title: "Focus Fuel",
+                    desc: "Even explorers need breaks to recharge!",
+                    task: "Do 10 jumping jacks, then come back and count backwards from 20 as fast as you can.",
+                    type: "physical",
+                    time: 60,
+                    reflection: "How did your body feel after moving? Was it easier to focus?"
+                }
+            ],
+            memory: [
+                {
+                    title: "Seed Planting",
+                    desc: "Plant memories in your garden so they grow strong!",
+                    task: "Match the pairs. When you find a match, draw it in your memory garden (imagine it)!",
+                    type: "matching",
+                    time: 60,
+                    reflection: "Did making a picture in your head help you remember where cards were?"
+                },
+                {
+                    title: "Teach the Stuffy",
+                    desc: "Teaching others helps your own brain learn better!",
+                    task: "Memorize this joke, then tell it to your favorite toy or person: Why did the scarecrow win an award? Because he was outstanding in his field!",
+                    type: "teach",
+                    time: 45,
+                    reflection: "How did it feel to teach someone else? Did you understand the joke better?"
+                },
+                {
+                    title: "Memory Watering",
+                    desc: "Good memories need to be visited again and again!",
+                    task: "Look at these 5 items for 10 seconds. Wait 10 seconds. Then write down all you remember.",
+                    type: "recall",
+                    time: 30,
+                    reflection: "Which items were easiest to remember? Why do you think that is?"
+                }
+            ],
+            challenge: [
+                {
+                    title: "The Learning Pit",
+                    desc: "Getting stuck is just your brain growing stronger!",
+                    task: "Solve this puzzle: Arrange numbers 1-4 so each row and column has no repeats.",
+                    type: "puzzle",
+                    time: 90,
+                    reflection: "What did you try when you got stuck? How did it feel to keep trying?"
+                },
+                {
+                    title: "Yet Tower",
+                    desc: "Add the magic word 'YET' to everything!",
+                    task: "Build a tower with blocks (or draw one). If it falls, say 'I haven't built it YET!' and try a different way.",
+                    type: "tower",
+                    time: 60,
+                    reflection: "How did saying 'yet' change how you felt about the mistake?"
+                },
+                {
+                    title: "Mistake Museum",
+                    desc: "Our best learning comes from oops moments!",
+                    task: "Think of a recent mistake you made. Draw it or describe it, then write what you learned from it.",
+                    type: "reflect",
+                    time: 45,
+                    reflection: "Was it hard to think about a mistake? What did you learn that you won't forget?"
+                }
+            ],
+            plan: [
+                {
+                    title: "Treasure Hunt Map",
+                    desc: "Good explorers always make a plan before starting!",
+                    task: "You need to: 1) Find the key 2) Open the chest 3) Get the gold. Drag the steps into the right order!",
+                    type: "sequence",
+                    time: 45,
+                    reflection: "What would happen if you tried to open the chest before finding the key?"
+                },
+                {
+                    title: "First/Then Train",
+                    desc: "Doing things in order helps us succeed!",
+                    task: "Sort these morning routine items: Eat breakfast, Wake up, Brush teeth, Get dressed. What's first? Then what?",
+                    type: "sort",
+                    time: 40,
+                    reflection: "Why is it important to wake up before eating breakfast? What happens if we skip steps?"
+                },
+                {
+                    title: "Plan B",
+                    desc: "Sometimes plans change and we need to adapt!",
+                    task: "You planned to play outside but it's raining! Drag 3 indoor activities you'd do instead.",
+                    type: "adapt",
+                    time: 35,
+                    reflection: "How did it feel when the plan changed? Was it easy to think of new ideas?"
+                }
             ]
         };
 
-        // Screen Management
+        // Initialize
+        document.querySelectorAll('.avatar-option').forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                document.querySelectorAll('.avatar-option').forEach(a => a.classList.remove('selected'));
+                this.classList.add('selected');
+                gameState.avatar = this.dataset.avatar;
+            });
+        });
+
+        // Load saved data
+        function loadGame() {
+            const saved = localStorage.getItem('brainExplorerData');
+            if (saved) {
+                gameState = JSON.parse(saved);
+                if (gameState.name) {
+                    updateDashboard();
+                    showScreen('screen-dashboard');
+                }
+            }
+        }
+
+        function saveGame() {
+            localStorage.setItem('brainExplorerData', JSON.stringify(gameState));
+        }
+
+        function createExplorer() {
+            const nameInput = document.getElementById('explorer-name');
+            if (!nameInput.value.trim()) {
+                alert('Please enter your explorer name!');
+                return;
+            }
+            gameState.name = nameInput.value.trim();
+            saveGame();
+            updateDashboard();
+            showScreen('screen-dashboard');
+        }
+
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
@@ -726,7 +1514,506 @@
             }
         }
 
-        // Parent Gate
+        function updateDashboard() {
+            document.getElementById('dash-avatar').textContent = gameState.avatar;
+            document.getElementById('dash-name').textContent = gameState.name;
+            document.getElementById('dash-level').textContent = `Level ${gameState.level} ${gameState.title}`;
+            
+            for (let stat in gameState.stats) {
+                document.getElementById(`stat-${stat}`).textContent = gameState.stats[stat];
+                document.getElementById(`bar-${stat}`).style.width = (gameState.stats[stat] * 10) + '%';
+                document.getElementById(`count-${stat}`).textContent = gameState.missionsCompleted[stat];
+                document.getElementById(`prog-${stat}`).style.width = (gameState.missionsCompleted[stat] / 3 * 100) + '%';
+            }
+            
+            document.getElementById('crystal-count').textContent = gameState.crystals;
+            checkLevelUp();
+        }
+
+        function checkLevelUp() {
+            const totalMissions = Object.values(gameState.missionsCompleted).reduce((a, b) => a + b, 0);
+            if (totalMissions >= 12 && gameState.level < 3) {
+                gameState.level = 3;
+                gameState.title = 'Master';
+            } else if (totalMissions >= 6 && gameState.level < 2) {
+                gameState.level = 2;
+                gameState.title = 'Ranger';
+            }
+        }
+
+        function startMission(type) {
+            const missionIndex = gameState.missionsCompleted[type];
+            if (missionIndex >= missions[type].length) {
+                alert('You have completed all missions on this island! Try another one!');
+                return;
+            }
+            
+            gameState.currentMission = { type, index: missionIndex };
+            const mission = missions[type][missionIndex];
+            
+            let html = `
+                <div class="mission-card" style="border-color: var(--${type === 'focus' ? 'focus-blue' : type === 'memory' ? 'memory-green' : type === 'challenge' ? 'challenge-orange' : 'plan-purple'})">
+                    <div class="mission-title">${mission.title}</div>
+                    <div class="mission-desc">${mission.desc}</div>
+                    <div class="timer" id="mission-timer">⏱️ ${mission.time}s</div>
+                    <div class="mission-task">
+                        <strong>Your Mission:</strong> ${mission.task}
+                    </div>
+                </div>
+                <div class="game-area" id="game-play-area">
+                    ${getGameHTML(type, mission.type)}
+                </div>
+            `;
+            
+            document.getElementById('mission-content').innerHTML = html;
+            showScreen('screen-mission');
+            
+            setTimeout(() => initGame(type, mission.type), 100);
+        }
+
+        function getGameHTML(type, gameType) {
+            switch(gameType) {
+                case 'spotlight':
+                    return '<div class="spotlight-area" id="spotlight-game"></div><p>Click 10 stars to win! Avoid distractions!</p>';
+                case 'matching':
+                    return '<div class="memory-grid" id="memory-game"></div><p>Find all matching pairs!</p>';
+                case 'sequence':
+                case 'sort':
+                    return '<ul class="task-list" id="sortable-list"></ul><button class="btn" onclick="checkOrder()">Check Order ✓</button>';
+                case 'puzzle':
+                    return '<div id="puzzle-game" style="font-size: 1.2em;"><p>Click cells to cycle through numbers 1-4. No repeats in rows or columns!</p><div id="sudoku-grid"></div></div>';
+                case 'pattern':
+                    return '<div id="pattern-game"><div id="pattern-display" style="font-size: 2em; margin: 20px;"></div><div id="pattern-buttons" style="margin: 20px;"></div></div>';
+                default:
+                    return '<div style="padding: 40px; text-align: center;"><p>Complete this mission in your notebook or with a grown-up!</p><button class="btn btn-green" onclick="completeMission()">I Did It! ✓</button></div>';
+            }
+        }
+
+        // Game Logic Functions
+        let starsCollected = 0;
+        let memoryMatches = 0;
+        let flippedCards = [];
+        let canFlip = true;
+        let currentOrder = [];
+        let puzzleGrid = [[0,0],[0,0]];
+        let patternSequence = [];
+        let playerPattern = [];
+
+        function initGame(type, gameType) {
+            if (gameType === 'spotlight') initSpotlight();
+            if (gameType === 'matching') initMemory();
+            if (gameType === 'sequence' || gameType === 'sort') initSortable(type);
+            if (gameType === 'puzzle') initPuzzle();
+            if (gameType === 'pattern') initPattern();
+        }
+
+        function initSpotlight() {
+            starsCollected = 0;
+            const area = document.getElementById('spotlight-game');
+            area.innerHTML = '';
+            
+            function spawnStar() {
+                if (starsCollected >= 10) {
+                    completeMission();
+                    return;
+                }
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = '⭐';
+                star.style.left = Math.random() * 80 + 10 + '%';
+                star.style.top = Math.random() * 80 + 10 + '%';
+                star.onclick = () => {
+                    starsCollected++;
+                    star.remove();
+                    spawnDistraction();
+                    setTimeout(spawnStar, 500);
+                };
+                area.appendChild(star);
+                setTimeout(() => star.remove(), 2000);
+            }
+            
+            function spawnDistraction() {
+                const distractions = ['🦋', '🎈', '🌸', '💫'];
+                const dist = document.createElement('div');
+                dist.className = 'distraction';
+                dist.textContent = distractions[Math.floor(Math.random() * distractions.length)];
+                dist.style.left = Math.random() * 80 + 10 + '%';
+                dist.style.top = Math.random() * 80 + 10 + '%';
+                area.appendChild(dist);
+                setTimeout(() => dist.remove(), 3000);
+            }
+            
+            spawnStar();
+        }
+
+        function initMemory() {
+            memoryMatches = 0;
+            flippedCards = [];
+            canFlip = true;
+            const grid = document.getElementById('memory-game');
+            const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐶', '🐱', '🐭', '🐹', '🐰', '🦊'];
+            
+            for (let i = emojis.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [emojis[i], emojis[j]] = [emojis[j], emojis[i]];
+            }
+            
+            grid.innerHTML = '';
+            emojis.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.emoji = emoji;
+                card.dataset.index = index;
+                card.textContent = '?';
+                card.onclick = () => flipCard(card, emoji);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card, emoji) {
+            if (!canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            
+            card.textContent = emoji;
+            card.classList.add('flipped');
+            flippedCards.push({card, emoji});
+            
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                setTimeout(checkMatch, 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [first, second] = flippedCards;
+            if (first.emoji === second.emoji) {
+                first.card.classList.add('matched');
+                second.card.classList.add('matched');
+                memoryMatches++;
+                if (memoryMatches === 6) {
+                    setTimeout(completeMission, 500);
+                }
+            } else {
+                first.card.textContent = '?';
+                second.card.textContent = '?';
+                first.card.classList.remove('flipped');
+                second.card.classList.remove('flipped');
+            }
+            flippedCards = [];
+            canFlip = true;
+        }
+
+        function initSortable(type) {
+            const list = document.getElementById('sortable-list');
+            let items = [];
+            
+            if (type === 'sequence') {
+                items = [
+                    {text: 'Get the gold', correct: 3},
+                    {text: 'Find the key', correct: 1},
+                    {text: 'Open the chest', correct: 2}
+                ];
+            } else if (type === 'sort') {
+                items = [
+                    {text: 'Wake up', correct: 1},
+                    {text: 'Eat breakfast', correct: 2},
+                    {text: 'Brush teeth', correct: 3},
+                    {text: 'Get dressed', correct: 4}
+                ];
+            }
+            
+            currentOrder = items.map((item, idx) => ({...item, current: idx}));
+            currentOrder.sort(() => Math.random() - 0.5);
+            renderSortable();
+        }
+
+        function renderSortable() {
+            const list = document.getElementById('sortable-list');
+            list.innerHTML = '';
+            currentOrder.forEach((item, idx) => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <span class="task-number">${idx + 1}</span>
+                    <span>${item.text}</span>
+                    <button onclick="moveUp(${idx})" style="margin-left: auto; background: none; border: none; font-size: 1.2em; cursor: pointer;">⬆️</button>
+                    <button onclick="moveDown(${idx})" style="background: none; border: none; font-size: 1.2em; cursor: pointer;">⬇️</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function moveUp(index) {
+            if (index > 0) {
+                [currentOrder[index], currentOrder[index-1]] = [currentOrder[index-1], currentOrder[index]];
+                renderSortable();
+            }
+        }
+
+        function moveDown(index) {
+            if (index < currentOrder.length - 1) {
+                [currentOrder[index], currentOrder[index+1]] = [currentOrder[index+1], currentOrder[index]];
+                renderSortable();
+            }
+        }
+
+        function checkOrder() {
+            const isCorrect = currentOrder.every((item, idx) => item.correct === idx + 1);
+            if (isCorrect) {
+                alert('Perfect order! Great planning! 🎉');
+                completeMission();
+            } else {
+                alert('Not quite right. Think about what must come first!');
+            }
+        }
+
+        function initPuzzle() {
+            puzzleGrid = [[1,2],[3,4]];
+            for (let i = 0; i < 4; i++) {
+                const row = Math.floor(i / 2);
+                const col = i % 2;
+                puzzleGrid[row][col] = Math.floor(Math.random() * 4) + 1;
+            }
+            renderPuzzle();
+        }
+
+        function renderPuzzle() {
+            const container = document.getElementById('sudoku-grid');
+            container.innerHTML = '';
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = 'repeat(2, 60px)';
+            container.style.gap = '10px';
+            container.style.justifyContent = 'center';
+            container.style.margin = '20px';
+            
+            for (let row = 0; row < 2; row++) {
+                for (let col = 0; col < 2; col++) {
+                    const cell = document.createElement('div');
+                    cell.style.width = '60px';
+                    cell.style.height = '60px';
+                    cell.style.border = '3px solid var(--challenge-orange)';
+                    cell.style.borderRadius = '10px';
+                    cell.style.display = 'flex';
+                    cell.style.alignItems = 'center';
+                    cell.style.justifyContent = 'center';
+                    cell.style.fontSize = '1.5em';
+                    cell.style.cursor = 'pointer';
+                    cell.style.background = 'white';
+                    cell.textContent = puzzleGrid[row][col];
+                    cell.onclick = () => {
+                        puzzleGrid[row][col] = (puzzleGrid[row][col] % 4) + 1;
+                        renderPuzzle();
+                        checkPuzzle();
+                    };
+                    container.appendChild(cell);
+                }
+            }
+        }
+
+        function checkPuzzle() {
+            const valid = puzzleGrid[0][0] !== puzzleGrid[0][1] && 
+                         puzzleGrid[1][0] !== puzzleGrid[1][1] &&
+                         puzzleGrid[0][0] !== puzzleGrid[1][0] &&
+                         puzzleGrid[0][1] !== puzzleGrid[1][1];
+            if (valid) {
+                setTimeout(() => {
+                    alert('You solved it! Great persistence! 🎉');
+                    completeMission();
+                }, 300);
+            }
+        }
+
+        function initPattern() {
+            patternSequence = [];
+            playerPattern = [];
+            const buttons = ['🔴', '🔵', '🟢', '🟡'];
+            const display = document.getElementById('pattern-display');
+            const btnContainer = document.getElementById('pattern-buttons');
+            
+            for (let i = 0; i < 4; i++) {
+                patternSequence.push(Math.floor(Math.random() * 4));
+            }
+            
+            let i = 0;
+            display.textContent = 'Watch...';
+            const interval = setInterval(() => {
+                if (i >= patternSequence.length) {
+                    clearInterval(interval);
+                    display.textContent = 'Your turn!';
+                    showPatternButtons();
+                    return;
+                }
+                display.textContent = buttons[patternSequence[i]];
+                i++;
+            }, 800);
+            
+            function showPatternButtons() {
+                btnContainer.innerHTML = '';
+                buttons.forEach((btn, idx) => {
+                    const button = document.createElement('button');
+                    button.textContent = btn;
+                    button.style.fontSize = '2em';
+                    button.style.margin = '10px';
+                    button.style.padding = '15px';
+                    button.style.border = 'none';
+                    button.style.borderRadius = '10px';
+                    button.style.cursor = 'pointer';
+                    button.onclick = () => {
+                        playerPattern.push(idx);
+                        if (playerPattern[playerPattern.length - 1] !== patternSequence[playerPattern.length - 1]) {
+                            alert('Oops! Listen again...');
+                            playerPattern = [];
+                            initPattern();
+                            return;
+                        }
+                        if (playerPattern.length === patternSequence.length) {
+                            alert('Perfect focus! You remembered the pattern! 🎉');
+                            completeMission();
+                        }
+                    };
+                    btnContainer.appendChild(button);
+                });
+            }
+        }
+
+        function completeMission() {
+            const { type, index } = gameState.currentMission;
+            const mission = missions[type][index];
+            
+            const html = `
+                <div class="reflection">
+                    <h3>🤔 Brain Reflection Time</h3>
+                    <p style="margin-bottom: 15px;"><strong>${mission.reflection}</strong></p>
+                    <div class="reflection-options">
+                        <button class="reflection-btn" onclick="finishReflection('A')">I noticed my attention wandering, then I brought it back!</button>
+                        <button class="reflection-btn" onclick="finishReflection('B')">I felt frustrated but kept trying!</button>
+                        <button class="reflection-btn" onclick="finishReflection('C')">I made a picture in my head to help me!</button>
+                        <button class="reflection-btn" onclick="finishReflection('D')">I broke it into smaller steps!</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('mission-content').innerHTML = html;
+        }
+
+        function finishReflection(answer) {
+            const { type } = gameState.currentMission;
+            gameState.missionsCompleted[type]++;
+            gameState.stats[type] = Math.min(10, gameState.stats[type] + 2);
+            gameState.crystals += 2;
+            
+            // Record session
+            gameState.sessions.unshift({
+                date: new Date().toISOString().split('T')[0],
+                island: type,
+                mission: missions[type][gameState.missionsCompleted[type]-1].title,
+                duration: 15,
+                reflection: 'Completed with reflection ' + answer
+            });
+            
+            if (gameState.missionsCompleted[type] === 3 && !gameState.badges.includes(type)) {
+                gameState.badges.push(type);
+            }
+            
+            if (gameState.badges.length === 4 && !gameState.badges.includes('master')) {
+                gameState.badges.push('master');
+            }
+            
+            saveGame();
+            showReward();
+        }
+
+        function showReward() {
+            const { type } = gameState.currentMission;
+            const messages = {
+                focus: "Your Focus Power leveled up! 🔦✨",
+                memory: "Your Memory Garden grew! 🌱✨",
+                challenge: "You conquered the Learning Pit! 🧗✨",
+                plan: "You drew a perfect Treasure Map! 🗺️✨"
+            };
+            
+            document.getElementById('reward-message').innerHTML = `
+                <p style="font-size: 1.3em; color: #555; margin-bottom: 20px;">${messages[type]}</p>
+                <p>You earned 2 Power Crystals! 💎💎</p>
+            `;
+            
+            document.querySelectorAll('.badge').forEach(badge => {
+                badge.classList.remove('earned');
+            });
+            
+            gameState.badges.forEach(badge => {
+                const el = document.getElementById(`badge-${badge}`);
+                if (el) el.classList.add('earned');
+            });
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => createConfetti(), i * 100);
+            }
+            
+            showScreen('screen-reward');
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.background = ['#FFD93D', '#4ECDC4', '#F38181', '#AA96DA'][Math.floor(Math.random() * 4)];
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+        }
+
+        function returnToDashboard() {
+            updateDashboard();
+            showScreen('screen-dashboard');
+        }
+
+        function viewBadges() {
+            const container = document.getElementById('full-badge-collection');
+            const badgeData = [
+                {id: 'focus', icon: '🔦', name: 'Focus Master', desc: 'Complete all Focus Falls missions'},
+                {id: 'memory', icon: '🌱', name: 'Memory Gardener', desc: 'Complete all Memory Meadows missions'},
+                {id: 'challenge', icon: '🧗', name: 'Puzzle Solver', desc: 'Complete all Challenge Canyon missions'},
+                {id: 'plan', icon: '🗺️', name: 'Map Maker', desc: 'Complete all Plan Peak missions'},
+                {id: 'master', icon: '🧠', name: 'Brain Master', desc: 'Earn all other badges'}
+            ];
+            
+            container.innerHTML = badgeData.map(badge => `
+                <div style="display: flex; align-items: center; gap: 20px; background: ${gameState.badges.includes(badge.id) ? 'linear-gradient(135deg, #fff9e6, #fff)' : '#f5f5f5'}; 
+                            padding: 20px; border-radius: 15px; width: 100%; max-width: 400px;
+                            border: 3px solid ${gameState.badges.includes(badge.id) ? 'var(--gold)' : '#ddd'};">
+                    <div style="font-size: 3em; opacity: ${gameState.badges.includes(badge.id) ? 1 : 0.3};">${badge.icon}</div>
+                    <div style="text-align: left;">
+                        <div style="font-family: 'Fredoka One', cursive; font-size: 1.3em; color: ${gameState.badges.includes(badge.id) ? 'var(--dark)' : '#999'};">
+                            ${badge.name} ${gameState.badges.includes(badge.id) ? '✓' : '🔒'}
+                        </div>
+                        <div style="color: #666; font-size: 0.9em;">${badge.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            showScreen('screen-badges');
+        }
+
+        function resetGame() {
+            if (confirm('Start over with a new explorer? Your current progress will be saved separately.')) {
+                localStorage.setItem('brainExplorerBackup', JSON.stringify(gameState));
+                gameState = {
+                    name: '',
+                    avatar: '🦁',
+                    level: 1,
+                    title: 'Trainee',
+                    stats: { focus: 0, memory: 0, challenge: 0, plan: 0 },
+                    missionsCompleted: { focus: 0, memory: 0, challenge: 0, plan: 0 },
+                    crystals: 0,
+                    playTime: 0,
+                    sessions: [],
+                    currentMission: null,
+                    badges: []
+                };
+                saveGame();
+                showScreen('screen-create');
+            }
+        }
+
+        // Parent Dashboard Functions
         function showParentGate() {
             showScreen('screen-parent-gate');
             document.getElementById('pin1').focus();
@@ -742,112 +2029,82 @@
                        document.getElementById('pin3').value + 
                        document.getElementById('pin4').value;
             
-            // Simple parent gate - in real version, use a better method
-            if (pin.length === 4) {
+            if (pin === '1234') { // Change this to your preferred PIN
                 showScreen('screen-parent');
-                // Clear pins
                 for(let i=1; i<=4; i++) document.getElementById(`pin${i}`).value = '';
             } else {
-                alert('Please enter all 4 digits');
+                alert('Incorrect PIN. Hint: Try 1234');
             }
         }
 
-        // Update Dashboard
         function updateParentDashboard() {
-            // Basic stats
-            document.getElementById('total-time').textContent = gameData.playTime + 'm';
-            const totalMissions = Object.values(gameData.missionsCompleted).reduce((a,b) => a+b, 0);
-            document.getElementById('total-missions').textContent = totalMissions;
-            document.getElementById('current-level').textContent = gameData.level;
-            document.getElementById('level-title').textContent = gameData.title;
-            document.getElementById('total-power').textContent = gameData.crystals;
+            document.getElementById('parent-total-time').textContent = (gameState.playTime || 0) + 'm';
+            const totalMissions = Object.values(gameState.missionsCompleted).reduce((a,b) => a+b, 0);
+            document.getElementById('parent-total-missions').textContent = totalMissions;
+            document.getElementById('parent-level').textContent = gameState.level;
+            document.getElementById('parent-title').textContent = gameState.title;
+            document.getElementById('parent-crystals').textContent = gameState.crystals;
 
-            // Skill bars
             const maxScore = 10;
-            for (let skill in gameData.stats) {
-                const score = gameData.stats[skill];
+            for (let skill in gameState.stats) {
+                const score = gameState.stats[skill];
                 const percent = (score / maxScore) * 100;
-                document.getElementById(`score-${skill}`).textContent = `${score}/${maxScore}`;
-                document.getElementById(`bar-${skill}`).style.width = percent + '%';
-                document.getElementById(`bar-${skill}`).textContent = Math.round(percent) + '%';
+                document.getElementById(`parent-score-${skill}`).textContent = `${score}/${maxScore}`;
+                document.getElementById(`parent-bar-${skill}`).style.width = percent + '%';
+                document.getElementById(`parent-bar-${skill}`).textContent = Math.round(percent) + '%';
             }
 
-            // Chart
-            const chartBars = document.querySelectorAll('.chart-bar');
+            const chartBars = document.querySelectorAll('#skill-chart .chart-bar');
             const skills = ['focus', 'memory', 'challenge', 'plan'];
             chartBars.forEach((bar, idx) => {
-                const score = gameData.stats[skills[idx]];
+                const score = gameState.stats[skills[idx]];
                 bar.style.height = (score / maxScore * 100) + '%';
                 bar.setAttribute('data-value', score);
             });
 
-            // Generate insights
             generateInsights();
-
-            // Generate tips
             generateTips();
-
-            // Timeline
             updateTimeline();
-
-            // Weekly report
             generateWeeklyReport();
         }
 
         function generateInsights() {
             const container = document.getElementById('insights-container');
             const insights = [];
-            
-            const totalMissions = Object.values(gameData.missionsCompleted).reduce((a,b) => a+b, 0);
+            const totalMissions = Object.values(gameState.missionsCompleted).reduce((a,b) => a+b, 0);
             
             if (totalMissions === 0) {
                 container.innerHTML = `
                     <div class="insight-box">
                         <strong>🌟 Ready to Start!</strong>
-                        Your child hasn't begun their adventure yet. Encourage them to explore Focus Falls first—it's the foundation for all other skills!
+                        Your child hasn't begun their adventure yet. Encourage them to explore Focus Falls first!
                     </div>`;
                 return;
             }
 
-            // Find strongest skill
-            let strongest = Object.entries(gameData.stats).sort((a,b) => b[1]-a[1])[0];
+            let strongest = Object.entries(gameState.stats).sort((a,b) => b[1]-a[1])[0];
             insights.push({
                 icon: '🏆',
                 title: 'Strongest Skill',
-                text: `Your child shows great strength in ${strongest[0]} (${strongest[1]}/10). This will help them tackle difficult tasks in other areas!`,
+                text: `Your child shows great strength in ${strongest[0]} (${strongest[1]}/10).`,
                 color: '#4CAF50'
             });
 
-            // Find growth area
-            let weakest = Object.entries(gameData.stats).sort((a,b) => a[1]-b[1])[0];
+            let weakest = Object.entries(gameState.stats).sort((a,b) => a[1]-b[1])[0];
             if (weakest[1] < 5) {
                 insights.push({
                     icon: '🌱',
                     title: 'Growth Opportunity',
-                    text: `${weakest[0].charAt(0).toUpperCase() + weakest[0].slice(1)} could use more practice. Try the offline activities below!`,
+                    text: `${weakest[0].charAt(0).toUpperCase() + weakest[0].slice(1)} could use more practice.`,
                     color: '#FF9800'
                 });
             }
 
-            // Consistency insight
-            if (gameData.sessions.length >= 3) {
-                const recentSessions = gameData.sessions.slice(0, 3);
-                const avgTime = recentSessions.reduce((a,b) => a + b.duration, 0) / 3;
-                insights.push({
-                    icon: '⏰',
-                    title: 'Session Length',
-                    text: `Average session: ${Math.round(avgTime)} minutes. ${avgTime > 15 ? 'Great focus endurance!' : 'Short bursts work well for this age.'}`,
-                    color: '#2196F3'
-                });
-            }
-
-            // Reflection quality
-            const goodReflections = gameData.sessions.filter(s => s.reflection && s.reflection.length > 10).length;
-            if (goodReflections > 0) {
+            if (gameState.sessions.length >= 3) {
                 insights.push({
                     icon: '🤔',
                     title: 'Metacognition Growing',
-                    text: `Your child is articulating their learning strategies! This "thinking about thinking" is a key skill.`,
+                    text: `Your child is articulating their learning strategies!`,
                     color: '#9C27B0'
                 });
             }
@@ -863,46 +2120,27 @@
         function generateTips() {
             const container = document.getElementById('tips-container');
             const tips = [];
-
-            // Analyze patterns and generate specific tips
-            const challengeScore = gameData.stats.challenge;
-            const focusScore = gameData.stats.focus;
             
-            if (challengeScore > focusScore + 2) {
+            if (gameState.stats.challenge > gameState.stats.focus + 2) {
                 tips.push({
                     title: 'Balance Persistence with Flexibility',
-                    content: 'Your child shows great resilience (high Challenge score) but may benefit from strategies to know WHEN to take a break. Teach them: "If I\'m frustrated after 3 tries, I take a breath and try a different way."',
-                    action: 'Practice the "3-Then-Break" rule during homework or puzzles.'
+                    content: 'Your child shows great resilience but may benefit from strategies to know WHEN to take a break.',
+                    action: 'Practice the "3-Then-Break" rule during homework.'
                 });
             }
 
-            if (gameData.stats.plan < 4) {
+            if (gameState.stats.plan < 4) {
                 tips.push({
                     title: 'Visual Planning Support',
-                    content: 'Planning skills are still developing. Use visual schedules with pictures for daily routines. This reduces cognitive load and builds executive function.',
-                    action: 'Create a "First/Then" board for morning or bedtime routines.'
+                    content: 'Planning skills are still developing. Use visual schedules with pictures.',
+                    action: 'Create a "First/Then" board for daily routines.'
                 });
             }
 
-            if (gameData.stats.memory > 6 && gameData.stats.focus < 5) {
-                tips.push({
-                    title: 'Memory vs. Attention Gap',
-                    content: 'Strong memory but variable attention suggests your child absorbs information well when engaged, but may struggle to initiate focus. Use high-interest topics to practice attention skills.',
-                    action: 'Practice the spotlight game with their favorite characters/toys.'
-                });
-            }
-
-            // General tips based on age (6 years old)
             tips.push({
                 title: 'The Power of "Yet" at Age 6',
-                content: 'Six-year-olds are developing "theory of mind" and can understand that abilities grow. The word "yet" is particularly powerful at this age because it aligns with their emerging understanding of time and change.',
+                content: 'Six-year-olds are developing "theory of mind" and can understand that abilities grow.',
                 action: 'Model "yet" in your own speech: "I haven\'t figured this out... yet!"'
-            });
-
-            tips.push({
-                title: 'Concrete Metaphors Work Best',
-                content: 'Abstract concepts like "focus" need physical anchors. The flashlight (spotlight), garden (memory), and maps (planning) in the game work because they\'re tangible.',
-                action: 'Use the actual props mentioned in the game during offline play.'
             });
 
             container.innerHTML = tips.map(t => `
@@ -918,7 +2156,7 @@
             const container = document.getElementById('activity-timeline');
             const noActivity = document.getElementById('no-activity');
             
-            if (gameData.sessions.length === 0) {
+            if (!gameState.sessions || gameState.sessions.length === 0) {
                 container.innerHTML = '';
                 noActivity.classList.remove('hidden');
                 return;
@@ -926,9 +2164,9 @@
             
             noActivity.classList.add('hidden');
             
-            container.innerHTML = gameData.sessions.map(s => `
+            container.innerHTML = gameState.sessions.slice(0, 10).map(s => `
                 <div class="timeline-item timeline-${s.island}">
-                    <div class="timeline-date">${formatDate(s.date)} • ${s.duration} mins</div>
+                    <div class="timeline-date">${formatDate(s.date)}</div>
                     <div class="timeline-title">${s.mission}</div>
                     <div style="font-size: 0.9em; color: #666; margin-top: 5px;">
                         <strong>Reflection:</strong> ${s.reflection}
@@ -948,24 +2186,21 @@
         }
 
         function generateWeeklyReport() {
-            const skills = Object.entries(gameData.stats);
+            const skills = Object.entries(gameState.stats);
             const strongest = skills.sort((a,b) => b[1]-a[1])[0];
             const weakest = skills.sort((a,b) => a[1]-b[1])[0];
             
-            document.getElementById('strengths').textContent = 
-                `${strongest[0].charAt(0).toUpperCase() + strongest[0].slice(1)} (${strongest[1]}/10)`;
+            document.getElementById('strengths').textContent = strongest[1] > 0 ? 
+                `${strongest[0].charAt(0).toUpperCase() + strongest[0].slice(1)} (${strongest[1]}/10)` : 'Not enough data';
             
-            document.getElementById('growth-areas').textContent = 
-                weakest[1] < 5 ? `${weakest[0].charAt(0).toUpperCase() + weakest[0].slice(1)} needs practice` : 'All skills developing well';
+            document.getElementById('growth-areas').textContent = weakest[1] < 5 && weakest[1] > 0 ? 
+                `${weakest[0].charAt(0).toUpperCase() + weakest[0].slice(1)} needs practice` : 'All skills developing';
             
-            // Recommendation
-            let rec = '';
-            if (weakest[1] < 4) {
-                rec = `Focus on ${weakest[0]} activities this week. Try the offline game suggested above.`;
-            } else if (gameData.playTime < 60) {
-                rec = 'Aim for 10-15 minutes of play daily to build consistency.';
-            } else {
-                rec = 'Great progress! Encourage teaching these skills to a stuffed animal or sibling.';
+            let rec = 'Try any island to begin!';
+            if (weakest[1] < 4 && weakest[1] > 0) {
+                rec = `Focus on ${weakest[0]} activities this week.`;
+            } else if (Object.values(gameState.missionsCompleted).reduce((a,b)=>a+b,0) > 6) {
+                rec = 'Great progress! Encourage teaching these skills to a sibling.';
             }
             document.getElementById('recommendation').textContent = rec;
         }
@@ -979,17 +2214,16 @@
 
         function exportData() {
             const report = {
-                childName: gameData.name,
+                childName: gameState.name,
                 exportDate: new Date().toLocaleDateString(),
                 summary: {
-                    totalPlayTime: gameData.playTime + ' minutes',
-                    missionsCompleted: Object.values(gameData.missionsCompleted).reduce((a,b) => a+b, 0),
-                    currentLevel: `Level ${gameData.level} ${gameData.title}`,
-                    totalCrystals: gameData.crystals
+                    totalPlayTime: gameState.playTime + ' minutes',
+                    missionsCompleted: Object.values(gameState.missionsCompleted).reduce((a,b) => a+b, 0),
+                    currentLevel: `Level ${gameState.level} ${gameState.title}`,
+                    totalCrystals: gameState.crystals
                 },
-                skills: gameData.stats,
-                recentActivity: gameData.sessions.slice(0, 5),
-                recommendations: document.getElementById('recommendation').textContent
+                skills: gameState.stats,
+                recentActivity: gameState.sessions.slice(0, 5)
             };
             
             const dataStr = JSON.stringify(report, null, 2);
@@ -997,37 +2231,12 @@
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `BrainExplorer_Report_${gameData.name}_${new Date().toISOString().split('T')[0]}.json`;
+            link.download = `BrainExplorer_${gameState.name}_${new Date().toISOString().split('T')[0]}.json`;
             link.click();
-            
-            alert('Report downloaded! You can open it in any text editor or import it back later.');
         }
 
-        function generateReport() {
-            window.print();
-        }
-
-        // Confetti effect for celebrations
-        function createConfetti() {
-            const colors = ['#FFD93D', '#4ECDC4', '#F38181', '#AA96DA', '#2A9D8F'];
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    document.body.appendChild(confetti);
-                    setTimeout(() => confetti.remove(), 4000);
-                }, i * 30);
-            }
-        }
-
-        // Initialize with demo data
+        // Initialize
         window.onload = () => {
-            // In real version, load from localStorage here
-            console.log('Parent Dashboard loaded with demo data');
-        };
-    </script>
-</body>
-</html>
+            loadGame();
+            if (!gameState.name) {
+ ‌‍
